@@ -1,6 +1,6 @@
 {
   "name": "@concordalabs/conversa",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "browser": {
     ".": "./dist/conversa.modern.js",
@@ -25,20 +25,20 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@types/lodash": "^4.14.165",
-    "@types/lodash-es": "^4.17.4",
     "css-path": "^1.0.3",
     "eventemitter3": "^4.0.7",
     "lodash": "^4.17.20",
-    "lodash-es": "^4.17.20",
     "rrweb-snapshot": "^1.0.1",
     "socket.io-client": "^3.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.165",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "microbundle": "^0.12.4",
     "prettier": "^2.0.2"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }

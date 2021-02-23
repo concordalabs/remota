@@ -2,7 +2,7 @@ import EventEmitter from "eventemitter3";
 import User, { UserType } from "./user";
 import StateManager from "./state";
 import Permissions from "./access";
-import { randomSequence } from "./helpers";
+import randomSequence from "./helpers/randomSequence";
 import Socket from "./socket/socketio";
 import { SocketMessages } from "./socket";
 import IframeProxy from "./proxy/iframe";

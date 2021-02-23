@@ -1,4 +1,4 @@
-import { randomSequence } from "./helpers";
+import randomSequence from "./helpers/randomSequence";
 
 export enum UserType {
   AGENT = 1,
