@@ -1,5 +1,4 @@
-// @ts-ignore
-import cssPath from "css-path";
+import cssPath from "./css-path";
 import throttle from "lodash/throttle";
 
 export interface MouseClick {

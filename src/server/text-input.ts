@@ -1,5 +1,5 @@
 // @ts-ignore
-import cssPath from "css-path";
+import cssPath from "./css-path";
 import debounce from "lodash/debounce";
 
 export interface TextInputUpdate {
