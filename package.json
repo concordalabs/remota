@@ -3,22 +3,21 @@
   "version": "0.1.2",
   "description": "",
   "browser": {
-    ".": "./dist/conversa.modern.js",
-    "./ui": "./dist/ui.modern.js",
-    "./client": "./dist/client.modern.js",
-    "./server": "./dist/server.modern.js"
+    ".": "./dist/index.js",
+    "./ui": "./dist/ui.js",
+    "./client": "./dist/client.js",
+    "./server": "./dist/server.js"
   },
   "exports": {
-    ".": "./dist/conversa.modern.js",
-    "./ui": "./dist/ui.modern.js",
-    "./client": "./dist/client.modern.js",
-    "./server": "./dist/server.modern.js"
+    ".": "./dist/index.js",
+    "./ui": "./dist/ui.js",
+    "./client": "./dist/client.js",
+    "./server": "./dist/server.js"
   },
-  "main": "./dist/conversa.modern.js",
+  "main": "./dist/conversa.js",
   "scripts": {
-    "bundler": "microbundle --globals lodash/throttle=throttle,lodash/debounce=debounce,socket.io-client=io",
-    "build": "npm run bundler -- ./src/*.ts",
-    "start": "npm run bundler -- watch ./src/*.ts"
+    "build": "esbuild ./src/**/*.ts --outdir=dist --target=es6",
+    "start": "esbuild ./src/**/*.ts --outdir=dist --target=es6 --watch"
   },
   "keywords": [],
   "author": "Bruno Luiz da Silva <contact@brunoluiz.net> (http://brunoluiz.net/)",
@@ -33,9 +32,9 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.165",
+    "esbuild": "^0.8.51",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
-    "microbundle": "^0.12.4",
     "prettier": "^2.0.2"
   },
   "files": [
