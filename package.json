@@ -4,13 +4,14 @@
   "description": "",
   "browser": {
     ".": "./dist/index.js",
-    "./ui": "./dist/ui.js",
-    "./client": "./dist/client.js",
-    "./server": "./dist/server.js"
+    "./daemon": "./dist/daemon.js",
+    "./ui": "./dist/ui/index.js",
+    "./client": "./dist/client/index.js",
+    "./server": "./dist/server/index.js"
   },
   "exports": {
     ".": "./dist/index.js",
-    "./ui": "./dist/ui.js",
+    "./ui": "./dist/index.js",
     "./client": "./dist/client.js",
     "./server": "./dist/server.js"
   },
