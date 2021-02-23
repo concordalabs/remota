@@ -14,10 +14,10 @@
     "./client": "./dist/client.js",
     "./server": "./dist/server.js"
   },
-  "main": "./dist/conversa.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "build": "esbuild ./src/**/*.ts --outdir=dist --target=es6",
-    "start": "esbuild ./src/**/*.ts --outdir=dist --target=es6 --watch"
+    "build": "zsh -c 'esbuild ./src/**/*.ts --outdir=dist --target=es6'",
+    "start": "zsh -c 'esbuild ./src/**/*.ts --outdir=dist --target=es6 --watch'"
   },
   "keywords": [],
   "author": "Bruno Luiz da Silva <contact@brunoluiz.net> (http://brunoluiz.net/)",

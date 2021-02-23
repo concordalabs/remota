@@ -1,4 +1,10 @@
 import ui from "./ui/index";
-export { ui };
-export * as client from "./client/index";
-export * as server from "./server/index";
+import * as client from "./client/index";
+import * as server from "./server/index";
+
+export { ui, client, server };
+export default {
+  ui,
+  client,
+  server,
+};
