@@ -1,24 +1,15 @@
 import { io } from "socket.io-client";
 import { SocketMessages } from "./";
 
-export const ConnectionState = {
-  NONE: "NONE",
-  STARTING: "STARTING",
-  CONNECTING: "CONNECTING",
-  CONNECTED: "CONNECTED",
-};
-
 export default class SocketIO {
   private socket: any;
+  private code = "";
+  private session = "";
 
-  constructor(private url: string, private code = "", private session = "") {
+  constructor(private url: string) {
     this.socket = io(this.url, {
-      query: {
-        code,
-      },
+      autoConnect: false,
     });
-    this.code = code;
-    this.session = session;
   }
 
   onConnect(cb: (e: any) => void) {
@@ -59,7 +50,15 @@ export default class SocketIO {
     return this;
   }
 
-  send(type: SocketMessages, payload: any) {
+  connect(code: string) {
+    this.socket.io.opts.query = {
+      code,
+    };
+    this.code = code;
+    this.socket.connect();
+  }
+
+  send(type: SocketMessages | string, payload: any) {
     this.socket.send({
       type: type,
       code: this.session,

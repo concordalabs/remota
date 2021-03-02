@@ -4,14 +4,23 @@ import Scroll from "./scroll";
 import Mouse from "./mouse";
 import Url from "./url";
 import { snapshot } from "rrweb-snapshot";
-import { ProxyMessages, Proxy } from "./proxy";
+import { EmitterAccess } from "../access";
 
-export enum EmitterAccess {
-  CursorChange = 1,
-  CursorClick,
-  ScrollChange,
-  DOMChange,
-  TextInputChange,
+export enum ProxyMessages {
+  PageDOMChanged = 1,
+  PageDOMRequested,
+  PageCursorMoved,
+  PageCursorClicked,
+  PageScrollChanged,
+  PageTextInputChanged,
+  PageUrlChanged,
+  PagePermissionsChanged,
+}
+
+export interface Proxy {
+  send(type: ProxyMessages, payload: any): void;
+  onMessage(cb: any): void;
+  close(): void;
 }
 
 export class Page {
@@ -23,13 +32,30 @@ export class Page {
 
   constructor(
     private emitter: Proxy,
+    domAccessor = "body",
     private permissions = [EmitterAccess.CursorChange]
   ) {
-    this.dom = new DOM();
+    this.dom = new DOM(domAccessor);
     this.textInput = new TextInput();
     this.scroll = new Scroll();
     this.mouse = new Mouse();
     this.url = new Url();
+  }
+
+  dump() {
+    return (
+      this.permissions.includes(EmitterAccess.DOMChange) &&
+      this.emitter.send(ProxyMessages.PageDOMChanged, {
+        html: snapshot(document, {
+          blockClass: "remoteSecured",
+          maskAllInputs: false,
+        })[0],
+      })
+    );
+  }
+
+  setPermissions(permissions: EmitterAccess[]) {
+    this.permissions = permissions;
   }
 
   listen() {
@@ -79,18 +105,7 @@ export class Page {
           ...payload,
         });
       case ProxyMessages.PageDOMRequested:
-        return (
-          this.permissions.includes(EmitterAccess.DOMChange) &&
-          this.emitter.send(ProxyMessages.PageDOMChanged, {
-            html: snapshot(document, {
-              blockClass: "remoteSecured",
-              maskAllInputs: false,
-            })[0],
-          })
-        );
-      case ProxyMessages.PagePermissionsChanged:
-        this.permissions = payload.permissions;
-        return;
+        return this.dump();
       default:
         return;
     }
@@ -103,5 +118,3 @@ export class Page {
     this.mouse.close();
   }
 }
-
-export { default as IframeProxy } from "./proxy/iframe";

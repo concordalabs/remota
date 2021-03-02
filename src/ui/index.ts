@@ -40,20 +40,22 @@ export default class UI {
 
     controller.onControlUpdate(
       ({ isControlling }: { isControlling: boolean }) => {
-        const el = document.querySelector<HTMLElement>(
+        const statusBar = document.querySelector<HTMLElement>(
           "#remote-status-bar-control"
         );
-        if (!el) return;
+        if (!statusBar) return;
 
-        const iframe = document.querySelector<HTMLIFrameElement>("iframe");
-        if (!iframe) return;
+        const overlay = document.querySelector<HTMLIFrameElement>(
+          "#remote-status-overlay"
+        );
+        if (!overlay) return;
 
         if (isControlling) {
-          el.innerHTML = "You have control";
-          iframe.style.border = "3px solid #52c41a";
+          statusBar.innerHTML = "You have control";
+          overlay.style.border = "4px solid #52c41a";
         } else {
-          el.innerHTML = "Peer have control";
-          iframe.style.border = "3px solid #f5222d";
+          statusBar.innerHTML = "Peer have control";
+          overlay.style.border = "4px solid #f5222d";
         }
       }
     );

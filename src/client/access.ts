@@ -1,6 +1,5 @@
 import User from "./user";
 
-// from ../server/index.ts
 export enum EmitterAccess {
   CursorChange = 1,
   CursorClick,

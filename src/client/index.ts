@@ -5,27 +5,25 @@ import Permissions from "./access";
 import randomSequence from "./helpers/randomSequence";
 import Socket from "./socket/socketio";
 import { SocketMessages } from "./socket";
-import IframeProxy from "./proxy/iframe";
-import { ProxyMessages } from "./proxy";
+import { Page } from "./page";
+
+export { User, UserType, Socket, Page };
 
 export class Client {
   private user: User;
-  private events: EventEmitter;
+  private code: string;
   private session: string;
   private control: User;
-  private socket: Socket;
   private intervals: any;
 
   constructor(
     user: User,
-    private bridgeUrl = "ws://localhost:3000",
-    private code = "",
-    private page = new IframeProxy(window),
+    private socket: Socket,
+    public page: Page,
     private state = new StateManager(),
-    private logger = console
+    private logger = console,
+    private events = new EventEmitter()
   ) {
-    this.events = new EventEmitter();
-
     try {
       const state = this.state.get();
       this.code = state.code;
@@ -33,28 +31,31 @@ export class Client {
       this.user = state.user;
       this.control = state.control;
     } catch (e) {
-      this.code = code;
+      this.code = "";
       this.session = "";
       this.user = user;
       this.control = user.isHost() ? user : User.fromType(UserType.HOST);
     }
     this.state.setCode(this.code).setUser(this.user);
 
-    setTimeout(() => {
-      this.page.send(
-        ProxyMessages.PagePermissionsChanged,
-        { permissions: Permissions.fromUser(this.user, this.control) },
-        false
-      );
-      this.updateControl({ accept: true, control: this.control });
-    }, 1000);
-
-    this.socket = new Socket(this.bridgeUrl, code);
     this.intervals = {};
   }
 
-  start() {
+  setCode(code: string) {
+    this.state.setCode(this.code);
+    this.code = code;
+    return this;
+  }
+
+  start(code?: string) {
+    if (code) this.setCode(code);
+
     this.logger.info("connecting");
+    this.page.setPermissions(Permissions.fromUser(this.user, this.control));
+    this.updateControl({ accept: true, control: this.control });
+    this.page.listen();
+    this.socket.connect(this.code);
+
     let requestJoinInterval: ReturnType<typeof setInterval>;
     this.onConnect(() => {
       this.logger.info("connected");
@@ -92,10 +93,7 @@ export class Client {
       this.socket.signal(SocketMessages.JoinUpdate, payload);
 
       if (accept) {
-        setTimeout(
-          () => this.page.send(ProxyMessages.PageDOMRequested, null, false),
-          1000
-        );
+        setTimeout(() => this.page.dump(), 1000);
       }
 
       // TODO: update the list of connected peers
@@ -115,11 +113,8 @@ export class Client {
     });
 
     this.onNewUser(() => {
-      if (!this.user.isHost()) return;
-      setTimeout(
-        () => this.page.send(ProxyMessages.PageDOMRequested, null, false),
-        1000
-      );
+      if (this.user.isHost()) return;
+      setTimeout(() => this.page.dump(), 1000);
     });
 
     // CONTROL HANDLERS
@@ -148,27 +143,14 @@ export class Client {
       this.control = User.fromJSON(control);
       this.state.setControl(control);
       accept &&
-        this.page.send(
-          ProxyMessages.PagePermissionsChanged,
-          {
-            permissions: Permissions.fromUser(
-              this.user,
-              User.fromJSON(control)
-            ),
-          },
-          false
+        this.page.setPermissions(
+          Permissions.fromUser(this.user, User.fromJSON(control))
         );
-    });
-
-    this.page.onMessage((e: any) => {
-      if (!e.upstream) return; // FIXME: this is rubbish
-      this.socket.send(e.type, e.payload);
     });
 
     // handle the event sent with socket.send()
     this.socket.onMessage((data: { type: SocketMessages; payload: any }) => {
       const { type, payload } = data;
-      this.page.send((<unknown>type) as ProxyMessages, payload, false);
 
       switch (type) {
         case SocketMessages.PromptControlRequest:
@@ -181,6 +163,8 @@ export class Client {
           return;
       }
     });
+
+    this.socket.onMessage((data) => this.page.handle(data));
 
     this.socket.onSignal((data: any) => {
       const { type, payload } = data;
@@ -199,14 +183,10 @@ export class Client {
 
     // FIXME: these are hacks while I don't make some stuff reactive
     setInterval(() => {
-      this.page.send(
-        ProxyMessages.PagePermissionsChanged,
-        {
-          permissions: Permissions.fromUser(this.user, this.control),
-        },
-        false
-      );
+      this.page.setPermissions(Permissions.fromUser(this.user, this.control));
     }, 1000);
+
+    return this;
   }
 
   /*
@@ -214,10 +194,6 @@ export class Client {
    * 1. agent: connect
    * 2. agent onConnect
    */
-  connect(code: string) {
-    // this.socket.connect(code);
-  }
-
   onConnect(cb: (e: any) => void) {
     this.socket.onConnect(cb);
   }
@@ -354,6 +330,3 @@ export class Client {
     if (this.socket) this.socket.close();
   }
 }
-
-export { User, UserType };
-export { default as IframeProxy } from "./proxy/iframe";

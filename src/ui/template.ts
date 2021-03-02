@@ -19,10 +19,9 @@ export const CSS = `
   background: rgba(0,0,0,.75);
   margin: 0 auto 10px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 6px 20px;
   border: 1px solid rgba(0,0,0,.5);
-  box-shadow: 0px 0px 8px #888888;
 }
 
 #remote-status-bar-status {
@@ -76,15 +75,24 @@ export const CSS = `
   font-weight: 700;
 }
 
-iframe {
-  border: 3px solid #fadb14;
+#remote-status-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid #333;
+  box-sizing: border-box;
+  pointer-events: none; 
 }
 `;
 
 const ICON_SIZE = 32;
 
 export const HTML = `
-<div id='remote-status-bar-container'>
+<div id='remote-status-overlay'>
+</div>
+<div id='remote-status-bar-container' class='remoteSecured'>
   <div id='remote-status-bar'>
     <div class='remote-status-bar-item'>
       <div class='remote-status-bar-details'>

@@ -7,9 +7,11 @@ interface DOMUpdate {
 export default class DOM {
   private closers: (() => void)[] = [];
 
+  constructor(private accessor: string) {}
+
   onChange(cb: (e: DOMUpdate) => void) {
     const MutationObserver = window.MutationObserver;
-    const obj = document.body?.parentElement;
+    const obj = document.querySelector(this.accessor)?.parentElement;
     const callback = () => {
       cb({
         html: snapshot(document, {
@@ -33,8 +35,10 @@ export default class DOM {
     const [node] = rebuild(html, {
       doc: document.implementation.createHTMLDocument("x"),
     });
+
+    const el = document.querySelector(this.accessor);
     // @ts-ignore
-    document.body.parentElement.innerHTML = node.body.parentElement.outerHTML;
+    el.innerHTML = node.body.parentElement.outerHTML;
   }
 
   close() {

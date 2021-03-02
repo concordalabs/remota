@@ -10,7 +10,9 @@
     "strict": true,
     "moduleResolution": "node",
     "lib": [
-      "dom"
+      "dom",
+      "es6",
+      "es7"
     ]
   }
 }

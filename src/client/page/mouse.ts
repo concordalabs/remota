@@ -64,6 +64,9 @@ export default class Mouse {
 
   onClick(cb: (e: MouseClick) => void) {
     const onClick = (e: MouseEvent) => {
+      const element = cssPath(e.target);
+      if (element.includes("#remote-status")) return;
+
       cb({
         element: cssPath(e.target),
         x: e.clientX,
