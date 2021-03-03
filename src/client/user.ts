@@ -23,9 +23,9 @@ export default class User {
   static fromType(t: UserType) {
     switch (t) {
       case UserType.AGENT:
-        return new User(UserType.AGENT);
+        return new User(UserType.AGENT, "agent");
       case UserType.HOST:
-        return new User(UserType.HOST);
+        return new User(UserType.HOST, "host", "host");
       default:
         throw new Error("user type not supported");
     }

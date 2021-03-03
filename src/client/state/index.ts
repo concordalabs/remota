@@ -14,7 +14,7 @@ export default class StateManager {
     this.key = `share-remote:${key}:`;
   }
 
-  private save(data: any) {
+  private save(data: State | null) {
     this.storage.setItem(this.key, JSON.stringify(data));
   }
 
@@ -43,7 +43,7 @@ export default class StateManager {
   }
 
   clear() {
-    this.save({});
+    this.save(null);
   }
 
   setUser(user: User) {

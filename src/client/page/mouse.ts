@@ -13,17 +13,17 @@ const toCSS = (obj: any) => {
     .join(";");
 };
 
-const clickFromPoint = (x: number, y: number) => {
-  const evt = new MouseEvent("click", {
-    view: window,
-    bubbles: true,
-    cancelable: true,
-    clientX: x,
-    clientY: y,
-  });
-  const el = document.elementFromPoint(x, y);
-  el?.dispatchEvent(evt);
-};
+// const clickFromPoint = (x: number, y: number) => {
+//   const evt = new MouseEvent("click", {
+//     view: window,
+//     bubbles: true,
+//     cancelable: true,
+//     clientX: x,
+//     clientY: y,
+//   });
+//   const el = document.elementFromPoint(x, y);
+//   el?.dispatchEvent(evt);
+// };
 
 export interface MouseUpdate {
   cursorX: number;

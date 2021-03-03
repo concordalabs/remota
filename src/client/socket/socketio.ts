@@ -1,8 +1,24 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { SocketMessages } from "./";
+import { PromptJoin, UpdateJoin, PromptControl, UpdateControl } from "../";
+
+export interface SignalEvent {
+  type: SocketMessages;
+  payload: PromptJoin | UpdateJoin;
+}
+
+export interface MessageEvent {
+  type: SocketMessages;
+  payload: any;
+}
+
+export interface ControlEvent {
+  type: SocketMessages;
+  payload: PromptControl | UpdateControl;
+}
 
 export default class SocketIO {
-  private socket: any;
+  private socket: Socket;
   private code = "";
   private session = "";
 
@@ -12,14 +28,14 @@ export default class SocketIO {
     });
   }
 
-  onConnect(cb: (e: any) => void) {
+  onConnect(cb: () => void) {
     this.socket.on("connect", cb);
     return this;
   }
 
   // ----
 
-  signal(type: string | number, payload: any) {
+  signal(type: SocketMessages, payload: PromptJoin | UpdateJoin) {
     this.socket.emit("signal", {
       type: type,
       code: this.code,
@@ -27,25 +43,30 @@ export default class SocketIO {
     });
   }
 
-  onSignal(cb: (e: any) => void) {
+  onSignal(cb: (e: SignalEvent) => void) {
     this.socket.on("signal", cb);
     return this;
   }
 
   // ----
 
-  join(payload: any) {
+  join(payload: UpdateJoin) {
     this.session = payload.code;
     this.socket.emit("join", payload);
   }
 
-  onNewUser(cb: (e: any) => void) {
+  onNewUser(cb: () => void) {
     this.socket.on("join", cb);
   }
 
   // ----
 
-  onMessage(cb: (e: any) => void) {
+  onMessage(cb: (e: MessageEvent) => void) {
+    this.socket.on("message", cb);
+    return this;
+  }
+
+  onControl(cb: (e: ControlEvent) => void) {
     this.socket.on("message", cb);
     return this;
   }
