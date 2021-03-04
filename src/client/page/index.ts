@@ -26,50 +26,49 @@ export class Page {
     this.url = new Url();
   }
 
-  dump() {
-    return (
-      this.permissions.includes(EmitterAccess.DOMChange) &&
+  dump(): void {
+    this.permissions.includes(EmitterAccess.DOMChange) &&
       this.emitter.send(PageMessages.DOMChanged, {
         html: snapshot(document, {
           blockClass: "remoteSecured",
           maskAllInputs: false,
         })[0],
-      })
-    );
+      });
   }
 
-  setPermissions(permissions: EmitterAccess[]) {
+  setPermissions(permissions: EmitterAccess[]): void {
     this.permissions = permissions;
   }
 
-  listen() {
-    this.mouse.onMove((e) => {
+  listen(): void {
+    this.mouse.onMove((e): void => {
       this.permissions.includes(EmitterAccess.CursorChange) &&
         this.emitter.send(PageMessages.CursorMoved, e);
     });
 
-    this.mouse.onClick((e) => {
+    this.mouse.onClick((e): void => {
       this.permissions.includes(EmitterAccess.CursorClick) &&
         this.emitter.send(PageMessages.CursorClicked, e);
     });
 
-    this.scroll.onChange((e) => {
+    this.scroll.onChange((e): void => {
       this.permissions.includes(EmitterAccess.ScrollChange) &&
         this.emitter.send(PageMessages.ScrollChanged, e);
     });
 
-    this.dom.onChange((e) => {
+    this.dom.onChange((e): void => {
       this.permissions.includes(EmitterAccess.DOMChange) &&
         this.emitter.send(PageMessages.DOMChanged, e);
     });
 
-    this.textInput.onChange((e) => {
+    this.textInput.onChange((e): void => {
       this.permissions.includes(EmitterAccess.TextInputChange) &&
         this.emitter.send(PageMessages.TextInputChanged, e);
     });
   }
 
-  handle(data: any) {
+  // eslint-disable-next-line
+  handle(data: any): void {
     const { type, payload, upstream } = data;
     if (upstream) return; // FIXME: there must be a better way than this
 
@@ -95,7 +94,7 @@ export class Page {
     }
   }
 
-  close() {
+  close(): void {
     this.dom.close();
     this.textInput.close();
     this.scroll.close();

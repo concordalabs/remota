@@ -10,10 +10,9 @@ export interface TextInputUpdate {
 export default class TextInput {
   private closers: (() => void)[] = [];
 
-  constructor() {}
-
-  onChange(cb: (e: TextInputUpdate) => void) {
-    const onKeydown = debounce((e: any) => {
+  onChange(cb: (e: TextInputUpdate) => void): void {
+    // eslint-disable-next-line
+    const onKeydown = debounce((e: any): void => {
       if (!e.srcElement.value) return;
 
       setTimeout(() => {
@@ -39,7 +38,7 @@ export default class TextInput {
     });
   }
 
-  update({ path, value }: TextInputUpdate) {
+  update({ path, value }: TextInputUpdate): void {
     const element = document.querySelector(path);
     const valueSetter = Object?.getOwnPropertyDescriptor(element, "value")?.set;
     const prototype = Object.getPrototypeOf(element);
@@ -57,7 +56,7 @@ export default class TextInput {
     element?.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
-  close() {
+  close(): void {
     while (this.closers.length > 0) {
       const closer = this.closers.shift();
       if (closer) closer();

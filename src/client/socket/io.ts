@@ -10,23 +10,26 @@ export default class IO implements SocketClient {
     });
   }
 
-  send(payload: any) {
+  // eslint-disable-next-line
+  send(payload: any): void {
     this.socket.send(payload);
   }
 
-  emit(type: string, payload: any) {
+  // eslint-disable-next-line
+  emit(type: string, payload: any): void {
     this.socket.emit(type, payload);
   }
 
-  close() {
+  close(): void {
     this.socket.close();
   }
 
-  on(event: string, cb: Function) {
+  // eslint-disable-next-line
+  on(event: string, cb: Function): void {
     this.socket.on(event, cb);
   }
 
-  connect(code: string) {
+  connect(code: string): void {
     this.socket.io.opts.query = {
       code,
     };

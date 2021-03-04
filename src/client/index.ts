@@ -26,6 +26,7 @@ export interface PromptControl {
 export interface UpdateControl {
   accept: boolean;
   control: User;
+  isControlling?: boolean;
   overwrite?: boolean;
 }
 
@@ -34,7 +35,7 @@ export class Client {
   private code: string;
   private session: string;
   private control: User;
-  private intervals: any;
+  private intervals: { [k: string]: ReturnType<typeof setInterval> };
 
   constructor(
     private clientId: string,
@@ -62,14 +63,14 @@ export class Client {
     this.intervals = {};
   }
 
-  setCode(c: string) {
+  setCode(c: string): this {
     const code = `${this.clientId}:${c}`;
     this.state.setCode(code);
     this.code = code;
     return this;
   }
 
-  start(code?: string) {
+  start(code?: string): this {
     if (code) this.setCode(code);
 
     this.logger.info("conversa is starting...");
@@ -129,37 +130,37 @@ export class Client {
 
   // User event hooks: used by UI and prompts
 
-  public onConnect(cb: () => void) {
+  onConnect(cb: () => void): void {
     this.socket.onConnect(cb);
   }
 
-  public onJoinPrompt(cb: (e: PromptJoin) => void) {
+  onJoinPrompt(cb: (e: PromptJoin) => void): void {
     this.events.on("prompt:join", cb);
   }
 
-  public onControlUpdate(cb: (e: UpdateControl) => void) {
+  onControlUpdate(cb: (e: UpdateControl) => void): void {
     this.events.on("update:control", cb);
   }
 
-  public onControlChangePrompt(cb: (e: PromptControl) => void) {
+  onControlChangePrompt(cb: (e: PromptControl) => void): void {
     this.events.on("prompt:control-change", cb);
   }
 
   // User interface
 
-  public promptJoin(e: PromptJoin) {
+  promptJoin(e: PromptJoin): void {
     this.events.emit("prompt:join", e);
   }
 
-  public acceptUser(user: User) {
+  acceptUser(user: User): void {
     this.replyJoinRequest({ user, accept: true });
   }
 
-  public denyUser(user: User) {
+  denyUser(user: User): void {
     this.replyJoinRequest({ user, accept: false });
   }
 
-  public requestControlChange() {
+  requestControlChange(): void {
     if (this.user.isHost()) return this.revokeControl();
 
     this.socket.send(SocketMessages.PromptControlRequest, {
@@ -167,15 +168,15 @@ export class Client {
     });
   }
 
-  public acceptControlChange(user: any) {
+  acceptControlChange(user: User): void {
     this.replyControlChangeRequest({ control: user, accept: true });
   }
 
-  public denyControlChange() {
+  denyControlChange(): void {
     this.replyControlChangeRequest({ control: this.user, accept: false });
   }
 
-  public revokeControl() {
+  revokeControl(): void {
     this.replyControlChangeRequest({
       control: this.user,
       accept: true,
@@ -183,7 +184,7 @@ export class Client {
     });
   }
 
-  private replyJoinRequest({ user, accept }: PromptJoin) {
+  private replyJoinRequest({ user, accept }: PromptJoin): void {
     if (!this.user.isHost()) return;
     this.socket.signal(SocketMessages.JoinUpdate, {
       user,
@@ -194,7 +195,7 @@ export class Client {
     if (accept) setTimeout(() => this.page.dump(), 1000);
   }
 
-  private updateJoin(payload: UpdateJoin) {
+  private updateJoin(payload: UpdateJoin): void {
     clearInterval(this.intervals.requestJoinInterval);
 
     if (!this.user.isHost() && payload.accept) {
@@ -207,7 +208,7 @@ export class Client {
     this.state.setSession(payload.code);
   }
 
-  private replyControlChangeRequest(e: UpdateControl) {
+  private replyControlChangeRequest(e: UpdateControl): void {
     if (!this.user.isHost()) {
       throw new Error("Only host is allowed `control-change` operations");
     }
@@ -215,7 +216,7 @@ export class Client {
     this.updateControl(e);
   }
 
-  private updateControl(payload: UpdateControl) {
+  private updateControl(payload: UpdateControl): void {
     const control = User.fromJSON(payload.control);
     this.events.emit("update:control", {
       accept: payload.accept,
@@ -230,19 +231,19 @@ export class Client {
     this.page.setPermissions(Permissions.fromUser(this.user, control));
   }
 
-  private promptControlChange(e: PromptControl) {
+  private promptControlChange(e: PromptControl): void {
     this.events.emit("prompt:control-change", e);
   }
 
   // Closer function
 
-  close() {
+  close(): void {
     this.logger.info("closing");
     this.state.clear();
     //
     // this.page.close(); // TODO: re-activate this
-    // @ts-ignore
-    Object.values(this.intervals).forEach(clearInterval);
+
+    Object.values(this.intervals).forEach((i) => clearInterval(i));
     if (this.socket) this.socket.close();
   }
 }

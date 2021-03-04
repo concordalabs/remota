@@ -14,11 +14,13 @@ export default class StateManager {
     this.key = `share-remote:${key}:`;
   }
 
-  private save(data: State | null) {
+  private save(data: State | null): this {
     this.storage.setItem(this.key, JSON.stringify(data));
+    return this;
   }
 
-  private merge(js: any) {
+  // eslint-disable-next-line
+  private merge(js: any): this {
     const data = this.storage.getItem(this.key);
     if (!data) return this.save({ ...js });
 
@@ -27,6 +29,7 @@ export default class StateManager {
       ...state,
       ...js,
     });
+    return this;
   }
 
   get(): State {
@@ -42,27 +45,23 @@ export default class StateManager {
     };
   }
 
-  clear() {
+  clear(): void {
     this.save(null);
   }
 
-  setUser(user: User) {
-    this.merge({ user });
-    return this;
+  setUser(user: User): this {
+    return this.merge({ user });
   }
 
-  setControl(control: User) {
-    this.merge({ control });
-    return this;
+  setControl(control: User): this {
+    return this.merge({ control });
   }
 
-  setCode(code: string) {
-    this.merge({ code });
-    return this;
+  setCode(code: string): this {
+    return this.merge({ code });
   }
 
-  setSession(session: string) {
-    this.merge({ session });
-    return this;
+  setSession(session: string): this {
+    return this.merge({ session });
   }
 }

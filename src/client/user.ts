@@ -12,15 +12,15 @@ export default class User {
     this.id = type === UserType.HOST ? "host" : id || randomSequence(32);
   }
 
-  isSame(actor: this) {
+  isSame(actor: this): boolean {
     return this.id === actor.id;
   }
 
-  isHost() {
+  isHost(): boolean {
     return this.type === UserType.HOST;
   }
 
-  static fromType(t: UserType) {
+  static fromType(t: UserType): User {
     switch (t) {
       case UserType.AGENT:
         return new User(UserType.AGENT, "agent");
@@ -31,7 +31,8 @@ export default class User {
     }
   }
 
-  static fromJSON(json: any) {
+  // eslint-disable-next-line
+  static fromJSON(json: any): User {
     return new User(json.type, json.name, json.id);
   }
 }

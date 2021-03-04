@@ -28,6 +28,7 @@ export type SignalEvent = {
 
 export interface MessageEvent {
   type: SocketMessages;
+  // eslint-disable-next-line
   payload: any;
 }
 
@@ -40,10 +41,13 @@ export type ControlEvent = {
 };
 
 export interface SocketClient {
+  // eslint-disable-next-line
   send(payload: any): void;
+  // eslint-disable-next-line
   emit(type: string, payload: any): void;
   close(): void;
   connect(code: string): void;
+  // eslint-disable-next-line
   on(event: string, cb: Function): void;
 }
 
@@ -53,14 +57,14 @@ export default class Socket {
 
   constructor(private socket: SocketClient) {}
 
-  onConnect(cb: () => void) {
+  onConnect(cb: () => void): this {
     this.socket.on("connect", cb);
     return this;
   }
 
   // ----
 
-  signal(type: SocketMessages, payload: PromptJoin | UpdateJoin) {
+  signal(type: SocketMessages, payload: PromptJoin | UpdateJoin): void {
     this.socket.emit("signal", {
       type: type,
       code: this.code,
@@ -68,40 +72,42 @@ export default class Socket {
     });
   }
 
-  onSignal(cb: (e: SignalEvent) => void) {
+  onSignal(cb: (e: SignalEvent) => void): this {
     this.socket.on("signal", cb);
     return this;
   }
 
   // ----
 
-  join(payload: UpdateJoin) {
+  join(payload: UpdateJoin): void {
     this.session = payload.code;
     this.socket.emit("join", payload);
   }
 
-  onNewUser(cb: () => void) {
+  onNewUser(cb: () => void): this {
     this.socket.on("join", cb);
+    return this;
   }
 
   // ----
 
-  onMessage(cb: (e: MessageEvent) => void) {
+  onMessage(cb: (e: MessageEvent) => void): this {
     this.socket.on("message", cb);
     return this;
   }
 
-  onControl(cb: (e: ControlEvent) => void) {
+  onControl(cb: (e: ControlEvent) => void): this {
     this.socket.on("message", cb);
     return this;
   }
 
-  connect(code: string) {
+  connect(code: string): void {
     this.code = code;
     this.socket.connect(code);
   }
 
-  send(type: SocketMessages | PageMessages, payload: any) {
+  // eslint-disable-next-line
+  send(type: SocketMessages | PageMessages, payload: any): void {
     this.socket.send({
       type: type,
       code: this.session,
@@ -109,7 +115,7 @@ export default class Socket {
     });
   }
 
-  close() {
+  close(): void {
     this.socket.close();
   }
 }

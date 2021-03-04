@@ -21,7 +21,7 @@ export type HostConfig = ClientConfig & {
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
 export default class Conversa {
-  static create(config: Config) {
+  static create(config: Config): client.Client {
     const io = new client.IO(config.url ?? "ws://localhost:4000");
     const socket = new client.Socket(io);
 
@@ -53,11 +53,11 @@ export default class Conversa {
     return daemon;
   }
 
-  static agent(config: AgentConfig) {
+  static agent(config: AgentConfig): client.Client {
     return Conversa.create({ ...config, type: UserType.AGENT });
   }
 
-  static host(config: HostConfig) {
+  static host(config: HostConfig): client.Client {
     return Conversa.create({ ...config, type: UserType.HOST });
   }
 }

@@ -1,6 +1,7 @@
 import { rebuild, snapshot } from "rrweb-snapshot";
 
 interface DOMUpdate {
+  // eslint-disable-next-line
   html: any;
 }
 
@@ -9,7 +10,7 @@ export default class DOM {
 
   constructor(private accessor: string) {}
 
-  onChange(cb: (e: DOMUpdate) => void) {
+  onChange(cb: (e: DOMUpdate) => void): MutationObserver {
     const MutationObserver = window.MutationObserver;
     const obj = document.querySelector(this.accessor)?.parentElement;
     const callback = () => {
@@ -21,7 +22,7 @@ export default class DOM {
       });
     };
 
-    if (!obj || obj.nodeType !== 1) return;
+    if (!obj || obj.nodeType !== 1) throw new Error("Object not accessible");
 
     // define a new observer
     const mutationObserver = new MutationObserver(callback);
@@ -31,7 +32,7 @@ export default class DOM {
     return mutationObserver;
   }
 
-  update({ html }: DOMUpdate) {
+  update({ html }: DOMUpdate): void {
     const [node] = rebuild(html, {
       doc: document.implementation.createHTMLDocument("x"),
     });
@@ -41,7 +42,7 @@ export default class DOM {
     el.innerHTML = node.body.parentElement.outerHTML;
   }
 
-  close() {
+  close(): void {
     while (this.closers.length > 0) {
       const closer = this.closers.shift();
       if (closer) closer();

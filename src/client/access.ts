@@ -28,7 +28,7 @@ export const AgentWrite = [
 export const AgentRead = [EmitterAccess.CursorChange];
 
 export default class Permissions {
-  static fromUser(user: User, control: User) {
+  static fromUser(user: User, control: User): EmitterAccess[] {
     if (user.isSame(control)) {
       return user.isHost() ? HostWrite : AgentWrite;
     }

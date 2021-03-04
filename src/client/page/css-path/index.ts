@@ -1,9 +1,10 @@
+/* eslint-disable */
 // TODO: fix this file, as it came from a non-module npm package and it was not made for TS
 
 // @ts-ignore
 const classSelector = function (className) {
-  let selectors = className.split(/\s/g);
-  let array = [];
+  const selectors = className.split(/\s/g);
+  const array = [];
 
   for (let i = 0; i < selectors.length; ++i) {
     if (selectors[i].length > 0) {
@@ -19,7 +20,7 @@ const classSelector = function (className) {
 // @ts-ignore
 const nthChild = function (elm) {
   let childNumber = 0;
-  let childNodes = elm.parentNode.childNodes;
+  const childNodes = elm.parentNode.childNodes;
   let index = 0;
 
   for (; index < childNodes.length; ++index) {
@@ -31,10 +32,10 @@ const nthChild = function (elm) {
 
 // @ts-ignore
 const path = function (elm, rootNode, list) {
-  let tag = elm.tagName.toLowerCase();
-  let selector = [tag];
-  let className = elm.getAttribute("class");
-  let id = elm.getAttribute("id");
+  const tag = elm.tagName.toLowerCase();
+  const selector = [tag];
+  const className = elm.getAttribute("class");
+  const id = elm.getAttribute("id");
 
   if (id) {
     list.unshift(tag + "#" + id.trim());

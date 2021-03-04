@@ -1,7 +1,7 @@
 const characters =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-export default (length: number) => {
+export default (length: number): string => {
   let result = "";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {

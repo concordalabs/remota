@@ -7,7 +7,7 @@ export interface MouseClick {
   y: number;
 }
 
-const toCSS = (obj: any) => {
+const toCSS = (obj: { [k: string]: number | string }): string => {
   return Object.entries(obj)
     .map(([k, v]) => `${k}: ${v}`)
     .join(";");
@@ -38,7 +38,7 @@ export default class Mouse {
     this.cursor = this.getCursor();
   }
 
-  getCursor() {
+  getCursor(): string {
     const node = document.createElement("div");
     node.innerHTML =
       '<svg id="share-remote-cursor" class="remoteSecured" xmlns="http://www.w3.org/2000/svg" transform="scale (-1, 1)" transform-origin="center" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path fill="currentColor" d="M18.75 3.94L4.07 10.08c-.83.35-.81 1.53.02 1.85L9.43 14c.26.1.47.31.57.57l2.06 5.33c.32.84 1.51.86 1.86.03l6.15-14.67c.33-.83-.5-1.66-1.32-1.32z"/></svg>';
@@ -62,7 +62,7 @@ export default class Mouse {
     return "#share-remote-cursor";
   }
 
-  onClick(cb: (e: MouseClick) => void) {
+  onClick(cb: (e: MouseClick) => void): void {
     const onClick = (e: MouseEvent) => {
       const element = cssPath(e.target);
       if (element.includes("#remote-status")) return;
@@ -80,7 +80,7 @@ export default class Mouse {
     });
   }
 
-  click({ element }: MouseClick) {
+  click({ element }: MouseClick): void {
     const evt = new MouseEvent("click", {
       bubbles: true,
       view: window,
@@ -89,8 +89,8 @@ export default class Mouse {
     el?.dispatchEvent(evt);
   }
 
-  onMove(cb: (e: MouseUpdate) => void) {
-    const onMouseMove = throttle((e: any) => {
+  onMove(cb: (e: MouseUpdate) => void): void {
+    const onMouseMove = throttle((e) => {
       const { pageX, pageY } = e;
       cb({
         cursorX: pageX,
@@ -105,14 +105,14 @@ export default class Mouse {
     });
   }
 
-  update({ cursorX, cursorY }: MouseUpdate) {
+  update({ cursorX, cursorY }: MouseUpdate): void {
     const cursor = document.querySelector<HTMLElement>(this.cursor);
     if (!cursor) return;
     cursor.style.left = cursorX + "px";
     cursor.style.top = cursorY + "px";
   }
 
-  close() {
+  close(): void {
     while (this.closers.length > 0) {
       const closer = this.closers.shift();
       if (closer) closer();

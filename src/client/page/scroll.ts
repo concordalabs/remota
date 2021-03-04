@@ -8,7 +8,7 @@ export interface ScrollUpdate {
 export default class Scroll {
   private closers: (() => void)[] = [];
 
-  onChange(cb: (e: ScrollUpdate) => void) {
+  onChange(cb: (e: ScrollUpdate) => void): void {
     const onScroll = throttle(() => {
       cb({
         scrollX: window.scrollX,
@@ -23,7 +23,7 @@ export default class Scroll {
     });
   }
 
-  update({ scrollX, scrollY }: ScrollUpdate) {
+  update({ scrollX, scrollY }: ScrollUpdate): void {
     try {
       window.scroll({
         left: scrollX,
@@ -35,7 +35,7 @@ export default class Scroll {
     }
   }
 
-  close() {
+  close(): void {
     while (this.closers.length > 0) {
       const closer = this.closers.shift();
       if (closer) closer();
