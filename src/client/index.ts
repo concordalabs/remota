@@ -3,11 +3,11 @@ import User, { UserType } from "./user";
 import StateManager from "./state";
 import Permissions from "./access";
 import randomSequence from "./helpers/randomSequence";
-import Socket from "./socket/socketio";
-import { SocketMessages } from "./socket";
+import Socket, { SocketMessages } from "./socket";
+import IO from "./socket/io";
 import { Page } from "./page";
 
-export { User, UserType, Socket, Page };
+export { User, UserType, Socket, Page, IO };
 
 export interface PromptJoin {
   user: User;
@@ -37,6 +37,7 @@ export class Client {
   private intervals: any;
 
   constructor(
+    private clientId: string,
     user: User,
     private socket: Socket,
     private page: Page,
@@ -61,8 +62,9 @@ export class Client {
     this.intervals = {};
   }
 
-  setCode(code: string) {
-    this.state.setCode(this.code);
+  setCode(c: string) {
+    const code = `${this.clientId}:${c}`;
+    this.state.setCode(code);
     this.code = code;
     return this;
   }
@@ -104,10 +106,10 @@ export class Client {
       switch (type) {
         case SocketMessages.PromptControlRequest:
           if (!this.user.isHost()) return;
-          return this.promptControlChange(<PromptControl>payload);
+          return this.promptControlChange(payload);
         case SocketMessages.ControlUpdate:
           if (this.user.isHost()) return;
-          return this.updateControl(<UpdateControl>payload);
+          return this.updateControl(payload);
       }
     });
 
@@ -115,10 +117,10 @@ export class Client {
       switch (type) {
         case SocketMessages.PromptJoinRequest:
           if (!this.user.isHost()) return;
-          return this.promptJoin(<PromptJoin>payload);
+          return this.promptJoin(payload);
         case SocketMessages.JoinUpdate:
           if (this.user.isHost()) return;
-          return this.updateJoin(<UpdateJoin>payload);
+          return this.updateJoin(payload);
       }
     });
 

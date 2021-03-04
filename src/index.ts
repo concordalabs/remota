@@ -4,27 +4,44 @@ import { UserType } from "./client/index";
 
 export { UI, client, UserType };
 
-export interface Config {
-  selector?: string;
+export type ClientConfig = {
+  clientId: string;
   url?: string;
-  type: client.UserType;
-}
+};
 
-export interface AgentConfig {
+export type AgentConfig = ClientConfig & {
   selector?: string;
-  url?: string;
-}
+  type: UserType.AGENT;
+};
 
-export interface HostConfig {
-  url?: string;
-}
+export type HostConfig = ClientConfig & {
+  type: UserType.HOST;
+};
+
+export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
 export default class Conversa {
   static create(config: Config) {
-    const socket = new client.Socket(config.url ?? "ws://localhost:4000");
-    // @ts-ignore
-    const page = new client.Page(socket, config.selector);
+    const io = new client.IO(config.url ?? "ws://localhost:4000");
+    const socket = new client.Socket(io);
+
+    let page: client.Page;
+    switch (config.type) {
+      case UserType.AGENT: {
+        page = new client.Page(socket, config.selector);
+        break;
+      }
+      case UserType.HOST: {
+        page = new client.Page(socket);
+        break;
+      }
+      default: {
+        throw new Error("Not a valid config");
+      }
+    }
+
     const daemon = new client.Client(
+      config.clientId,
       client.User.fromType(config.type),
       socket,
       page
@@ -36,11 +53,11 @@ export default class Conversa {
     return daemon;
   }
 
-  static agent(config?: AgentConfig) {
+  static agent(config: AgentConfig) {
     return Conversa.create({ ...config, type: UserType.AGENT });
   }
 
-  static host(config?: HostConfig) {
+  static host(config: HostConfig) {
     return Conversa.create({ ...config, type: UserType.HOST });
   }
 }

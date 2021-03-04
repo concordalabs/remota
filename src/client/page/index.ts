@@ -5,23 +5,7 @@ import Mouse from "./mouse";
 import Url from "./url";
 import { snapshot } from "rrweb-snapshot";
 import { EmitterAccess } from "../access";
-
-export enum PageMessages {
-  DOMChanged = 1,
-  DOMRequested,
-  CursorMoved,
-  CursorClicked,
-  ScrollChanged,
-  TextInputChanged,
-  URLChanged,
-  PermissionsChanged,
-}
-
-export interface Proxy {
-  send(type: PageMessages, payload: any): void;
-  onMessage(cb: any): void;
-  close(): void;
-}
+import Socket, { PageMessages } from "../socket";
 
 export class Page {
   private dom: DOM;
@@ -31,7 +15,7 @@ export class Page {
   private url: Url;
 
   constructor(
-    private emitter: Proxy,
+    private emitter: Socket,
     domAccessor = "body",
     private permissions = [EmitterAccess.CursorChange]
   ) {
