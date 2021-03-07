@@ -247,3 +247,5 @@ export class Client {
     if (this.socket) this.socket.close();
   }
 }
+
+export default Client;

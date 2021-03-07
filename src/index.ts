@@ -1,11 +1,13 @@
 import UI from "./ui/index";
-import * as client from "./client/index";
-import { UserType } from "./client/index";
-
-export { UI, client, UserType };
+import Client from "./client";
+import Page from "./client/page";
+import IO from "./client/socket/io";
+import Socket from "./client/socket";
+import User, { UserType } from "./client/user";
 
 export type ClientConfig = {
   clientId: string;
+  key: string;
   url?: string;
 };
 
@@ -21,18 +23,21 @@ export type HostConfig = ClientConfig & {
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
 export default class Conversa {
-  static create(config: Config): client.Client {
-    const io = new client.IO(config.url ?? "ws://localhost:4000");
-    const socket = new client.Socket(io);
+  static create(config: Config): Client {
+    if (!config.clientId || !config.key)
+      throw new Error("Conversa clientId or key are missing");
 
-    let page: client.Page;
+    const io = new IO(config.url ?? "ws://localhost:4000");
+    const socket = new Socket(io);
+
+    let page: Page;
     switch (config.type) {
       case UserType.AGENT: {
-        page = new client.Page(socket, config.selector);
+        page = new Page(socket, config.selector);
         break;
       }
       case UserType.HOST: {
-        page = new client.Page(socket);
+        page = new Page(socket);
         break;
       }
       default: {
@@ -40,9 +45,9 @@ export default class Conversa {
       }
     }
 
-    const daemon = new client.Client(
+    const daemon = new Client(
       config.clientId,
-      client.User.fromType(config.type),
+      User.fromType(config.type),
       socket,
       page
     );
@@ -53,11 +58,11 @@ export default class Conversa {
     return daemon;
   }
 
-  static agent(config: AgentConfig): client.Client {
+  static agent(config: AgentConfig): Client {
     return Conversa.create({ ...config, type: UserType.AGENT });
   }
 
-  static host(config: HostConfig): client.Client {
+  static host(config: HostConfig): Client {
     return Conversa.create({ ...config, type: UserType.HOST });
   }
 }

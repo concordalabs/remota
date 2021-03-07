@@ -101,3 +101,5 @@ export class Page {
     this.mouse.close();
   }
 }
+
+export default Page;
