@@ -24,7 +24,6 @@ export default class UI {
     this.onEnd((): void => {
       controller.close();
       this.close();
-      document.querySelector('iframe[name="root"]')?.remove();
       alert("Your session has been finished");
     });
 
@@ -33,18 +32,18 @@ export default class UI {
     });
 
     controller.onConnect((): void => {
-      const el = document.querySelector("#remote-status-bar-status");
+      const el = document.querySelector("#__remote-status-bar-status");
       if (el) el.innerHTML = "Connected";
     });
 
     controller.onControlUpdate(({ isControlling }): void => {
       const statusBar = document.querySelector<HTMLElement>(
-        "#remote-status-bar-control"
+        "#__remote-status-bar-control"
       );
       if (!statusBar) return;
 
       const overlay = document.querySelector<HTMLIFrameElement>(
-        "#remote-status-overlay"
+        "#__remote-status-overlay"
       );
       if (!overlay) return;
 
@@ -60,14 +59,14 @@ export default class UI {
 
   // eslint-disable-next-line
   onEnd(cb: (e: any) => void) {
-    const el = document.querySelector("#remote-status-bar-end");
+    const el = document.querySelector("#__remote-status-bar-end");
     if (el) el.addEventListener("click", (e) => cb(e));
     return this;
   }
 
   // eslint-disable-next-line
   onRequestControl(cb: (e: any) => void) {
-    const el = document.querySelector("#remote-status-bar-request-control");
+    const el = document.querySelector("#__remote-status-bar-request-control");
     if (el) el.addEventListener("click", (e) => cb(e));
     return this;
   }
