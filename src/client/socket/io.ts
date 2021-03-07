@@ -1,12 +1,22 @@
 import { io, Socket as IOSocket } from "socket.io-client";
 import { SocketClient } from "./";
 
+export type IOConfig = {
+  url: string;
+  clientId: string;
+  key: string;
+};
+
 export default class IO implements SocketClient {
   private socket: IOSocket;
 
-  constructor(private url: string) {
-    this.socket = io(this.url, {
+  constructor(private config: IOConfig) {
+    this.socket = io(this.config.url, {
       autoConnect: false,
+      query: {
+        clientId: this.config.clientId,
+        key: this.config.key,
+      },
     });
   }
 
@@ -30,9 +40,8 @@ export default class IO implements SocketClient {
   }
 
   connect(code: string): void {
-    this.socket.io.opts.query = {
-      code,
-    };
+    const query = this.socket.io?.opts?.query ?? {};
+    query.code = code;
     this.socket.connect();
   }
 }

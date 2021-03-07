@@ -27,7 +27,11 @@ export default class Conversa {
     if (!config.clientId || !config.key)
       throw new Error("Conversa clientId or key are missing");
 
-    const io = new IO(config.url ?? "ws://localhost:4000");
+    const io = new IO({
+      url: config.url ?? "ws://localhost:4000",
+      key: config.key,
+      clientId: config.clientId,
+    });
     const socket = new Socket(io);
 
     let page: Page;

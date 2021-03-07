@@ -40,6 +40,12 @@ export type ControlEvent = {
   payload: PromptControl;
 };
 
+export type SocketConnectionError = Error & {
+  data: {
+    description: string;
+  };
+};
+
 export interface SocketClient {
   // eslint-disable-next-line
   send(payload: any): void;
@@ -59,6 +65,11 @@ export default class Socket {
 
   onConnect(cb: () => void): this {
     this.socket.on("connect", cb);
+    return this;
+  }
+
+  onConnectError(cb: (err: SocketConnectionError) => void): this {
+    this.socket.on("connect_error", cb);
     return this;
   }
 

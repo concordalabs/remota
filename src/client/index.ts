@@ -97,6 +97,13 @@ export class Client {
       }, 500);
     });
 
+    this.socket.onConnectError((err): void => {
+      this.logger.error("conversa failed to connect 🚨", {
+        message: err.message,
+        description: err.data.description,
+      });
+    });
+
     this.socket.onNewUser(() =>
       this.user.isHost() ? setTimeout(() => this.page.dump(), 1000) : null
     );
