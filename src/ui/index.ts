@@ -1,12 +1,12 @@
 import * as template from "./template";
-import { Client } from "../client";
+import { Client, User } from "../client";
 
 export default class UI {
   private ui: HTMLElement;
   private style: HTMLStyleElement;
   private registered: boolean;
 
-  constructor() {
+  constructor(user: User) {
     this.registered = false;
     this.ui = document.createElement("div");
     this.ui.innerHTML = template.HTML;
@@ -15,6 +15,12 @@ export default class UI {
     this.style = document.createElement("style");
     this.style.innerHTML = template.CSS;
     document.getElementsByTagName("head")[0].appendChild(this.style);
+
+    const label = document.querySelector<HTMLDivElement>(
+      ".__remote-status-bar-actions-label"
+    );
+    if (!label) return;
+    label.innerText = user.isHost() ? "Revoke" : "Request";
   }
 
   // TODO: change me correctly

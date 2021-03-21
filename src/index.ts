@@ -56,7 +56,7 @@ export default class Conversa {
       page
     );
 
-    const ui = new UI();
+    const ui = new UI(User.fromType(config.type));
     ui.register(daemon);
 
     return daemon;
