@@ -14,12 +14,7 @@ export default class DOM {
     const MutationObserver = window.MutationObserver;
     const obj = document.querySelector(this.accessor)?.parentElement;
     const callback = () => {
-      cb({
-        html: snapshot(document, {
-          blockClass: "remoteSecured",
-          maskAllInputs: false,
-        })[0],
-      });
+      cb({ html: this.dump() });
     };
 
     if (!obj || obj.nodeType !== 1) throw new Error("Object not accessible");
@@ -40,6 +35,18 @@ export default class DOM {
     const el = document.querySelector(this.accessor);
     // @ts-ignore
     el.innerHTML = node.body.parentElement.outerHTML;
+
+    // Disable href's
+    const elems = document.getElementsByTagName("*");
+    for (let i = 0; i < elems.length; i++) {
+      const item = elems.item(i);
+      if (!item) continue;
+
+      if (item.tagName.toLowerCase() === "a") {
+        // @ts-ignore
+        item.href = "#";
+      }
+    }
   }
 
   close(): void {
@@ -47,5 +54,12 @@ export default class DOM {
       const closer = this.closers.shift();
       if (closer) closer();
     }
+  }
+
+  dump() {
+    return snapshot(document, {
+      blockClass: "remoteSecured",
+      maskAllInputs: false,
+    })[0];
   }
 }

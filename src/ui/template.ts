@@ -84,6 +84,7 @@ export const CSS = `
   border: 4px solid #333;
   box-sizing: border-box;
   pointer-events: none; 
+  z-index: 9999;
 }
 
 #__remote-status-cursor {

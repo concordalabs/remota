@@ -29,10 +29,7 @@ export class Page {
   dump(): void {
     this.permissions.includes(EmitterAccess.DOMChange) &&
       this.emitter.send(PageMessages.DOMChanged, {
-        html: snapshot(document, {
-          blockClass: "remoteSecured",
-          maskAllInputs: false,
-        })[0],
+        html: this.dom.dump(),
       });
   }
 
