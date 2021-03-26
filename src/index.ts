@@ -62,11 +62,11 @@ export default class Conversa {
     return daemon;
   }
 
-  static agent(config: AgentConfig): Client {
+  static agent(config: ClientConfig): Client {
     return Conversa.create({ ...config, type: UserType.AGENT });
   }
 
-  static host(config: HostConfig): Client {
+  static host(config: ClientConfig): Client {
     return Conversa.create({ ...config, type: UserType.HOST });
   }
 }
