@@ -28,7 +28,7 @@ export default class Conversa {
       throw new Error("Conversa clientId or key are missing");
 
     const io = new IO({
-      url: config.url ?? "ws://localhost:4000",
+      url: config.url ?? "wss://remota.xyz",
       key: config.key,
       clientId: config.clientId,
     });
