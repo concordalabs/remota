@@ -1,0 +1,1003 @@
+{
+  "inputs": {
+    "src/ui/template.ts": {
+      "bytes": 3716,
+      "imports": []
+    },
+    "src/ui/index.ts": {
+      "bytes": 2376,
+      "imports": [
+        {
+          "path": "src/ui/template.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "node_modules/eventemitter3/index.js": {
+      "bytes": 9141,
+      "imports": []
+    },
+    "src/client/helpers/randomSequence.ts": {
+      "bytes": 338,
+      "imports": []
+    },
+    "src/client/user.ts": {
+      "bytes": 862,
+      "imports": [
+        {
+          "path": "src/client/helpers/randomSequence.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/state/index.ts": {
+      "bytes": 1303,
+      "imports": [
+        {
+          "path": "src/client/user.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/access.ts": {
+      "bytes": 858,
+      "imports": []
+    },
+    "src/client/socket/index.ts": {
+      "bytes": 2582,
+      "imports": []
+    },
+    "node_modules/parseuri/index.js": {
+      "bytes": 1823,
+      "imports": []
+    },
+    "node_modules/ms/index.js": {
+      "bytes": 3023,
+      "imports": []
+    },
+    "node_modules/debug/src/common.js": {
+      "bytes": 6029,
+      "imports": [
+        {
+          "path": "node_modules/ms/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/debug/src/browser.js": {
+      "bytes": 6010,
+      "imports": [
+        {
+          "path": "node_modules/debug/src/common.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/socket.io-client/build/url.js": {
+      "bytes": 1968,
+      "imports": [
+        {
+          "path": "node_modules/parseuri/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/has-cors/index.js": {
+      "bytes": 396,
+      "imports": []
+    },
+    "node_modules/engine.io-client/lib/globalThis.browser.js": {
+      "bytes": 204,
+      "imports": []
+    },
+    "node_modules/engine.io-client/lib/xmlhttprequest.js": {
+      "bytes": 1263,
+      "imports": [
+        {
+          "path": "node_modules/has-cors/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/globalThis.browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-parser/lib/commons.js": {
+      "bytes": 557,
+      "imports": []
+    },
+    "node_modules/engine.io-parser/lib/encodePacket.browser.js": {
+      "bytes": 1369,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-parser/lib/commons.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/base64-arraybuffer/lib/base64-arraybuffer.js": {
+      "bytes": 1704,
+      "imports": []
+    },
+    "node_modules/engine.io-parser/lib/decodePacket.browser.js": {
+      "bytes": 1444,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-parser/lib/commons.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/base64-arraybuffer/lib/base64-arraybuffer.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-parser/lib/index.js": {
+      "bytes": 1211,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-parser/lib/encodePacket.browser.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-parser/lib/decodePacket.browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/component-emitter/index.js": {
+      "bytes": 3468,
+      "imports": []
+    },
+    "node_modules/engine.io-client/lib/transport.js": {
+      "bytes": 1972,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-parser/lib/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/component-emitter/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/parseqs/index.js": {
+      "bytes": 708,
+      "imports": []
+    },
+    "node_modules/yeast/index.js": {
+      "bytes": 1352,
+      "imports": []
+    },
+    "node_modules/engine.io-client/lib/transports/polling.js": {
+      "bytes": 4543,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/transport.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/parseqs/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-parser/lib/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/yeast/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/util.js": {
+      "bytes": 168,
+      "imports": []
+    },
+    "node_modules/engine.io-client/lib/transports/polling-xhr.js": {
+      "bytes": 7282,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/xmlhttprequest.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transports/polling.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/component-emitter/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/util.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/globalThis.browser.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/transports/polling-jsonp.js": {
+      "bytes": 4936,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/transports/polling.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/globalThis.browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js": {
+      "bytes": 196,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/globalThis.browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/transports/websocket.js": {
+      "bytes": 5950,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/transport.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-parser/lib/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/parseqs/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/yeast/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/util.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/transports/index.js": {
+      "bytes": 1051,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/xmlhttprequest.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transports/polling-xhr.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transports/polling-jsonp.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transports/websocket.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/socket.js": {
+      "bytes": 16003,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/transports/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/component-emitter/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-parser/lib/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/parseuri/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/parseqs/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/engine.io-client/lib/index.js": {
+      "bytes": 432,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/socket.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transport.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-client/lib/transports/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/engine.io-parser/lib/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/socket.io-parser/dist/is-binary.js": {
+      "bytes": 1746,
+      "imports": []
+    },
+    "node_modules/socket.io-parser/dist/binary.js": {
+      "bytes": 2679,
+      "imports": [
+        {
+          "path": "node_modules/socket.io-parser/dist/is-binary.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/socket.io-parser/dist/index.js": {
+      "bytes": 8919,
+      "imports": [
+        {
+          "path": "node_modules/component-emitter/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-parser/dist/binary.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-parser/dist/is-binary.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/socket.io-client/build/on.js": {
+      "bytes": 231,
+      "imports": []
+    },
+    "node_modules/socket.io-client/build/socket.js": {
+      "bytes": 12603,
+      "imports": [
+        {
+          "path": "node_modules/socket.io-parser/dist/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/component-emitter/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-client/build/on.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/backo2/index.js": {
+      "bytes": 1399,
+      "imports": []
+    },
+    "node_modules/socket.io-client/build/manager.js": {
+      "bytes": 10775,
+      "imports": [
+        {
+          "path": "node_modules/engine.io-client/lib/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-client/build/socket.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/component-emitter/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-parser/dist/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-client/build/on.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/backo2/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/socket.io-client/build/index.js": {
+      "bytes": 2044,
+      "imports": [
+        {
+          "path": "node_modules/socket.io-client/build/url.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-client/build/manager.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-client/build/socket.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/debug/src/browser.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-parser/dist/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/socket.io-client/build/manager.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/socket.io-client/wrapper.mjs": {
+      "bytes": 105,
+      "imports": [
+        {
+          "path": "node_modules/socket.io-client/build/index.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/socket/io.ts": {
+      "bytes": 975,
+      "imports": [
+        {
+          "path": "node_modules/socket.io-client/wrapper.mjs",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "node_modules/rrweb-snapshot/es/rrweb-snapshot.js": {
+      "bytes": 39410,
+      "imports": []
+    },
+    "src/client/page/dom.ts": {
+      "bytes": 1649,
+      "imports": [
+        {
+          "path": "node_modules/rrweb-snapshot/es/rrweb-snapshot.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/page/css-path/index.ts": {
+      "bytes": 1525,
+      "imports": []
+    },
+    "node_modules/lodash/isObject.js": {
+      "bytes": 733,
+      "imports": []
+    },
+    "node_modules/lodash/_freeGlobal.js": {
+      "bytes": 173,
+      "imports": []
+    },
+    "node_modules/lodash/_root.js": {
+      "bytes": 300,
+      "imports": [
+        {
+          "path": "node_modules/lodash/_freeGlobal.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/now.js": {
+      "bytes": 520,
+      "imports": [
+        {
+          "path": "node_modules/lodash/_root.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/_Symbol.js": {
+      "bytes": 118,
+      "imports": [
+        {
+          "path": "node_modules/lodash/_root.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/_getRawTag.js": {
+      "bytes": 1139,
+      "imports": [
+        {
+          "path": "node_modules/lodash/_Symbol.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/_objectToString.js": {
+      "bytes": 565,
+      "imports": []
+    },
+    "node_modules/lodash/_baseGetTag.js": {
+      "bytes": 792,
+      "imports": [
+        {
+          "path": "node_modules/lodash/_Symbol.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/_getRawTag.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/_objectToString.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/isObjectLike.js": {
+      "bytes": 614,
+      "imports": []
+    },
+    "node_modules/lodash/isSymbol.js": {
+      "bytes": 682,
+      "imports": [
+        {
+          "path": "node_modules/lodash/_baseGetTag.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/isObjectLike.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/toNumber.js": {
+      "bytes": 1572,
+      "imports": [
+        {
+          "path": "node_modules/lodash/isObject.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/isSymbol.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/lodash/debounce.js": {
+      "bytes": 6100,
+      "imports": [
+        {
+          "path": "node_modules/lodash/isObject.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/now.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/toNumber.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "src/client/page/text-input.ts": {
+      "bytes": 1699,
+      "imports": [
+        {
+          "path": "src/client/page/css-path/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/lodash/debounce.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "node_modules/lodash/throttle.js": {
+      "bytes": 2709,
+      "imports": [
+        {
+          "path": "node_modules/lodash/debounce.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/lodash/isObject.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "src/client/page/scroll.ts": {
+      "bytes": 893,
+      "imports": [
+        {
+          "path": "node_modules/lodash/throttle.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/page/mouse.ts": {
+      "bytes": 2082,
+      "imports": [
+        {
+          "path": "src/client/page/css-path/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/lodash/throttle.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/page/url.ts": {
+      "bytes": 685,
+      "imports": []
+    },
+    "src/client/page/index.ts": {
+      "bytes": 2825,
+      "imports": [
+        {
+          "path": "src/client/page/dom.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/page/text-input.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/page/scroll.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/page/mouse.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/page/url.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/access.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/socket/index.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/client/index.ts": {
+      "bytes": 6639,
+      "imports": [
+        {
+          "path": "node_modules/eventemitter3/index.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/user.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/state/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/access.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/helpers/randomSequence.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/socket/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/socket/io.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/page/index.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/index.ts": {
+      "bytes": 1643,
+      "imports": [
+        {
+          "path": "src/ui/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/page/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/socket/io.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/socket/index.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/client/user.ts",
+          "kind": "import-statement"
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "dist/remota.min.js.map": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 304803
+    },
+    "dist/remota.min.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/index.ts",
+      "inputs": {
+        "node_modules/eventemitter3/index.js": {
+          "bytesInOutput": 2808
+        },
+        "node_modules/parseuri/index.js": {
+          "bytesInOutput": 1126
+        },
+        "node_modules/ms/index.js": {
+          "bytesInOutput": 1397
+        },
+        "node_modules/debug/src/common.js": {
+          "bytesInOutput": 2025
+        },
+        "node_modules/debug/src/browser.js": {
+          "bytesInOutput": 2623
+        },
+        "node_modules/socket.io-client/build/url.js": {
+          "bytesInOutput": 767
+        },
+        "node_modules/has-cors/index.js": {
+          "bytesInOutput": 135
+        },
+        "node_modules/engine.io-client/lib/globalThis.browser.js": {
+          "bytesInOutput": 130
+        },
+        "node_modules/engine.io-client/lib/xmlhttprequest.js": {
+          "bytesInOutput": 376
+        },
+        "node_modules/engine.io-parser/lib/commons.js": {
+          "bytesInOutput": 308
+        },
+        "node_modules/engine.io-parser/lib/encodePacket.browser.js": {
+          "bytesInOutput": 613
+        },
+        "node_modules/base64-arraybuffer/lib/base64-arraybuffer.js": {
+          "bytesInOutput": 702
+        },
+        "node_modules/engine.io-parser/lib/decodePacket.browser.js": {
+          "bytesInOutput": 552
+        },
+        "node_modules/engine.io-parser/lib/index.js": {
+          "bytesInOutput": 393
+        },
+        "node_modules/component-emitter/index.js": {
+          "bytesInOutput": 1333
+        },
+        "node_modules/engine.io-client/lib/transport.js": {
+          "bytesInOutput": 819
+        },
+        "node_modules/parseqs/index.js": {
+          "bytesInOutput": 327
+        },
+        "node_modules/yeast/index.js": {
+          "bytesInOutput": 449
+        },
+        "node_modules/engine.io-client/lib/transports/polling.js": {
+          "bytesInOutput": 1864
+        },
+        "node_modules/engine.io-client/lib/util.js": {
+          "bytesInOutput": 104
+        },
+        "node_modules/engine.io-client/lib/transports/polling-xhr.js": {
+          "bytesInOutput": 3232
+        },
+        "node_modules/engine.io-client/lib/transports/polling-jsonp.js": {
+          "bytesInOutput": 2195
+        },
+        "node_modules/engine.io-client/lib/transports/websocket-constructor.browser.js": {
+          "bytesInOutput": 143
+        },
+        "node_modules/engine.io-client/lib/transports/websocket.js": {
+          "bytesInOutput": 2259
+        },
+        "node_modules/engine.io-client/lib/transports/index.js": {
+          "bytesInOutput": 428
+        },
+        "node_modules/engine.io-client/lib/socket.js": {
+          "bytesInOutput": 7253
+        },
+        "node_modules/engine.io-client/lib/index.js": {
+          "bytesInOutput": 192
+        },
+        "node_modules/socket.io-parser/dist/is-binary.js": {
+          "bytesInOutput": 935
+        },
+        "node_modules/socket.io-parser/dist/binary.js": {
+          "bytesInOutput": 923
+        },
+        "node_modules/socket.io-parser/dist/index.js": {
+          "bytesInOutput": 3122
+        },
+        "node_modules/socket.io-client/build/on.js": {
+          "bytesInOutput": 160
+        },
+        "node_modules/socket.io-client/build/socket.js": {
+          "bytesInOutput": 4684
+        },
+        "node_modules/backo2/index.js": {
+          "bytesInOutput": 584
+        },
+        "node_modules/socket.io-client/build/manager.js": {
+          "bytesInOutput": 4632
+        },
+        "node_modules/socket.io-client/build/index.js": {
+          "bytesInOutput": 923
+        },
+        "node_modules/lodash/isObject.js": {
+          "bytesInOutput": 110
+        },
+        "node_modules/lodash/_freeGlobal.js": {
+          "bytesInOutput": 106
+        },
+        "node_modules/lodash/_root.js": {
+          "bytesInOutput": 143
+        },
+        "node_modules/lodash/now.js": {
+          "bytesInOutput": 83
+        },
+        "node_modules/lodash/_Symbol.js": {
+          "bytesInOutput": 60
+        },
+        "node_modules/lodash/_getRawTag.js": {
+          "bytesInOutput": 264
+        },
+        "node_modules/lodash/_objectToString.js": {
+          "bytesInOutput": 107
+        },
+        "node_modules/lodash/_baseGetTag.js": {
+          "bytesInOutput": 213
+        },
+        "node_modules/lodash/isObjectLike.js": {
+          "bytesInOutput": 85
+        },
+        "node_modules/lodash/isSymbol.js": {
+          "bytesInOutput": 135
+        },
+        "node_modules/lodash/toNumber.js": {
+          "bytesInOutput": 421
+        },
+        "node_modules/lodash/debounce.js": {
+          "bytesInOutput": 999
+        },
+        "node_modules/lodash/throttle.js": {
+          "bytesInOutput": 280
+        },
+        "src/ui/template.ts": {
+          "bytesInOutput": 3639
+        },
+        "src/ui/index.ts": {
+          "bytesInOutput": 1309
+        },
+        "src/client/index.ts": {
+          "bytesInOutput": 3605
+        },
+        "src/client/helpers/randomSequence.ts": {
+          "bytesInOutput": 172
+        },
+        "src/client/user.ts": {
+          "bytesInOutput": 433
+        },
+        "src/client/state/index.ts": {
+          "bytesInOutput": 682
+        },
+        "src/client/access.ts": {
+          "bytesInOutput": 344
+        },
+        "src/client/socket/index.ts": {
+          "bytesInOutput": 1196
+        },
+        "node_modules/socket.io-client/wrapper.mjs": {
+          "bytesInOutput": 38
+        },
+        "src/client/socket/io.ts": {
+          "bytesInOutput": 422
+        },
+        "node_modules/rrweb-snapshot/es/rrweb-snapshot.js": {
+          "bytesInOutput": 15927
+        },
+        "src/client/page/dom.ts": {
+          "bytesInOutput": 794
+        },
+        "src/client/page/css-path/index.ts": {
+          "bytesInOutput": 606
+        },
+        "src/client/page/text-input.ts": {
+          "bytesInOutput": 881
+        },
+        "src/client/page/scroll.ts": {
+          "bytesInOutput": 427
+        },
+        "src/client/page/mouse.ts": {
+          "bytesInOutput": 827
+        },
+        "src/client/page/url.ts": {
+          "bytesInOutput": 336
+        },
+        "src/client/page/index.ts": {
+          "bytesInOutput": 1366
+        },
+        "src/index.ts": {
+          "bytesInOutput": 575
+        }
+      },
+      "bytes": 88030
+    }
+  }
+}

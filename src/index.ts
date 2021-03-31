@@ -22,10 +22,10 @@ export type HostConfig = ClientConfig & {
 
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
-export default class Conversa {
+export default class Remota {
   static create(config: Config): Client {
     if (!config.clientId || !config.key)
-      throw new Error("Conversa clientId or key are missing");
+      throw new Error("Remota clientId or key are missing");
 
     const io = new IO({
       url: config.url ?? "wss://remota.xyz",
@@ -63,10 +63,10 @@ export default class Conversa {
   }
 
   static agent(config: ClientConfig): Client {
-    return Conversa.create({ ...config, type: UserType.AGENT });
+    return Remota.create({ ...config, type: UserType.AGENT });
   }
 
   static host(config: ClientConfig): Client {
-    return Conversa.create({ ...config, type: UserType.HOST });
+    return Remota.create({ ...config, type: UserType.HOST });
   }
 }

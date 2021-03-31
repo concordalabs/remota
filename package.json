@@ -10,8 +10,11 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "tsc --watch"
+    "build": "npm run build:tsc && npm run build:esbuild",
+    "build:tsc": "tsc",
+    "build:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.min.js --target=es6 --bundle --minify --sourcemap",
+    "watch:tsc": "npm run build:tsc -- --watch",
+    "watch:esbuild": "npm run build:esbuild -- --serve"
   },
   "keywords": [],
   "author": "Bruno Luiz da Silva <contact@brunoluiz.net> (http://brunoluiz.net/)",
@@ -27,6 +30,7 @@
     "@types/lodash": "^4.14.165",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
+    "esbuild": "^0.11.2",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
