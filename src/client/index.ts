@@ -2,22 +2,12 @@ import EventEmitter from "eventemitter3";
 import User, { UserType } from "./user";
 import StateManager from "./state";
 import Permissions from "./access";
-import randomSequence from "./helpers/randomSequence";
 import Socket, { SocketMessages } from "./socket";
 import IO from "./socket/io";
 import { Page } from "./page";
+import { SocketError } from "./errors";
 
 export { User, UserType, Socket, Page, IO };
-
-export interface PromptJoin {
-  user: User;
-  accept?: boolean;
-}
-
-export interface UpdateJoin {
-  code: string;
-  accept?: boolean;
-}
 
 export interface PromptControl {
   user: User;
@@ -33,7 +23,6 @@ export interface UpdateControl {
 export class Client {
   private user: User;
   private code: string;
-  private session: string;
   private control: User;
   private intervals: { [k: string]: ReturnType<typeof setInterval> };
 
@@ -49,12 +38,10 @@ export class Client {
     try {
       const state = this.state.get();
       this.code = state.code;
-      this.session = state.session;
       this.user = state.user;
       this.control = state.control;
     } catch (e) {
       this.code = "";
-      this.session = "";
       this.user = user;
       this.control = user.isHost() ? user : User.fromType(UserType.HOST);
     }
@@ -81,34 +68,24 @@ export class Client {
 
     this.socket.onConnect(() => {
       this.logger.info("ready for conversa 🚀");
-      if (this.session) {
-        this.socket.join({ code: this.session });
-        return this.updateJoin({ code: this.session });
-      }
-
-      if (this.user.isHost()) {
-        return this.updateJoin({ code: randomSequence(128) });
-      }
-
-      this.intervals.requestJoinInterval = setInterval(() => {
-        this.socket.signal(SocketMessages.PromptJoinRequest, {
-          user: this.user,
-        });
-      }, 500);
     });
 
     this.socket.onConnectError((err): void => {
-      this.logger.error("conversa failed to connect 🚨", {
+      this.logger.info("conversa failed to connect 🚨", {
         message: err.message,
         description: err.data.description,
       });
+      this.error(new SocketError(err.message, err.data.description));
     });
 
-    this.socket.onNewUser(() =>
-      this.user.isHost() ? setTimeout(() => this.page.dump(), 1000) : null
-    );
-
     this.socket.onMessage((data) => this.page.handle(data));
+
+    this.socket.onJoin(({ type }) => {
+      switch (type) {
+        case SocketMessages.PeerJoin:
+          return this.page.dump();
+      }
+    });
 
     this.socket.onControl(({ type, payload }) => {
       switch (type) {
@@ -121,17 +98,6 @@ export class Client {
       }
     });
 
-    this.socket.onSignal(({ type, payload }) => {
-      switch (type) {
-        case SocketMessages.PromptJoinRequest:
-          if (!this.user.isHost()) return;
-          return this.promptJoin(payload);
-        case SocketMessages.JoinUpdate:
-          if (this.user.isHost()) return;
-          return this.updateJoin(payload);
-      }
-    });
-
     return this;
   }
 
@@ -139,10 +105,6 @@ export class Client {
 
   onConnect(cb: () => void): void {
     this.socket.onConnect(cb);
-  }
-
-  onJoinPrompt(cb: (e: PromptJoin) => void): void {
-    this.events.on("prompt:join", cb);
   }
 
   onControlUpdate(cb: (e: UpdateControl) => void): void {
@@ -153,19 +115,11 @@ export class Client {
     this.events.on("prompt:control-change", cb);
   }
 
+  onError(cb: (e: Error) => void): void {
+    this.events.on("error", cb);
+  }
+
   // User interface
-
-  promptJoin(e: PromptJoin): void {
-    this.events.emit("prompt:join", e);
-  }
-
-  acceptUser(user: User): void {
-    this.replyJoinRequest({ user, accept: true });
-  }
-
-  denyUser(user: User): void {
-    this.replyJoinRequest({ user, accept: false });
-  }
 
   requestControlChange(): void {
     if (this.user.isHost()) return this.revokeControl();
@@ -189,30 +143,6 @@ export class Client {
       accept: true,
       overwrite: true,
     });
-  }
-
-  private replyJoinRequest({ user, accept }: PromptJoin): void {
-    if (!this.user.isHost()) return;
-    this.socket.signal(SocketMessages.JoinUpdate, {
-      user,
-      accept,
-      code: accept ? this.session : undefined,
-    });
-
-    if (accept) setTimeout(() => this.page.dump(), 1000);
-  }
-
-  private updateJoin(payload: UpdateJoin): void {
-    clearInterval(this.intervals.requestJoinInterval);
-
-    if (!this.user.isHost() && payload.accept) {
-      this.socket.join(payload);
-    } else if (this.user.isHost()) {
-      this.socket.join(payload);
-    }
-
-    this.session = payload.code;
-    this.state.setSession(payload.code);
   }
 
   private replyControlChangeRequest(e: UpdateControl): void {
@@ -240,6 +170,10 @@ export class Client {
 
   private promptControlChange(e: PromptControl): void {
     this.events.emit("prompt:control-change", e);
+  }
+
+  private error(e: Error): void {
+    this.events.emit("error", e);
   }
 
   // Closer function

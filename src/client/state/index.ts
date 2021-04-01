@@ -2,7 +2,6 @@ import User from "../user";
 
 export interface State {
   code: string;
-  session: string;
   control: User;
   user: User;
 }
@@ -59,9 +58,5 @@ export default class StateManager {
 
   setCode(code: string): this {
     return this.merge({ code });
-  }
-
-  setSession(session: string): this {
-    return this.merge({ session });
   }
 }

@@ -1,10 +1,9 @@
-import { PromptJoin, UpdateJoin, PromptControl, UpdateControl } from "../";
+import { PromptControl, UpdateControl } from "../";
 
 export enum SocketMessages {
-  PromptControlRequest = 18,
+  PeerJoin = 20,
+  PromptControlRequest,
   ControlUpdate,
-  PromptJoinRequest,
-  JoinUpdate,
 }
 
 export enum PageMessages {
@@ -18,14 +17,6 @@ export enum PageMessages {
   PermissionsChanged,
 }
 
-export type SignalEvent = {
-  type: SocketMessages.PromptJoinRequest;
-  payload: PromptJoin;
-} & {
-  type: SocketMessages.JoinUpdate;
-  payload: UpdateJoin;
-};
-
 export interface MessageEvent {
   type: SocketMessages;
   // eslint-disable-next-line
@@ -38,6 +29,10 @@ export type ControlEvent = {
 } & {
   type: SocketMessages.PromptControlRequest;
   payload: PromptControl;
+};
+
+export type JoinEvent = {
+  type: SocketMessages.PeerJoin;
 };
 
 export type SocketConnectionError = Error & {
@@ -59,7 +54,6 @@ export interface SocketClient {
 
 export default class Socket {
   private code = "";
-  private session = "";
 
   constructor(private socket: SocketClient) {}
 
@@ -75,39 +69,17 @@ export default class Socket {
 
   // ----
 
-  signal(type: SocketMessages, payload: PromptJoin | UpdateJoin): void {
-    this.socket.emit("signal", {
-      type: type,
-      code: this.code,
-      payload,
-    });
-  }
-
-  onSignal(cb: (e: SignalEvent) => void): this {
-    this.socket.on("signal", cb);
-    return this;
-  }
-
-  // ----
-
-  join(payload: UpdateJoin): void {
-    this.session = payload.code;
-    this.socket.emit("join", payload);
-  }
-
-  onNewUser(cb: () => void): this {
-    this.socket.on("join", cb);
-    return this;
-  }
-
-  // ----
-
   onMessage(cb: (e: MessageEvent) => void): this {
     this.socket.on("message", cb);
     return this;
   }
 
   onControl(cb: (e: ControlEvent) => void): this {
+    this.socket.on("message", cb);
+    return this;
+  }
+
+  onJoin(cb: (e: JoinEvent) => void): this {
     this.socket.on("message", cb);
     return this;
   }
@@ -121,7 +93,7 @@ export default class Socket {
   send(type: SocketMessages | PageMessages, payload: any): void {
     this.socket.send({
       type: type,
-      code: this.session,
+      code: this.code,
       payload,
     });
   }
