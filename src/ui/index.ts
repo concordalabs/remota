@@ -30,7 +30,6 @@ export default class UI {
     this.onEnd((): void => {
       controller.close();
       this.close();
-      alert("Your session has been finished");
     });
 
     this.onRequestControl((): void => {

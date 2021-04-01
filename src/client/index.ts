@@ -178,6 +178,10 @@ export class Client {
 
   // Closer function
 
+  onClose(cb: () => void): void {
+    this.events.on("close", cb);
+  }
+
   close(): void {
     this.logger.info("closing");
     this.state.clear();
@@ -186,6 +190,7 @@ export class Client {
 
     Object.values(this.intervals).forEach((i) => clearInterval(i));
     if (this.socket) this.socket.close();
+    this.events.emit("close", {});
   }
 }
 
