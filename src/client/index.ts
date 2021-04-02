@@ -3,11 +3,10 @@ import User, { UserType } from "./user";
 import StateManager from "./state";
 import Permissions from "./access";
 import Socket, { SocketMessages } from "./socket";
-import IO from "./socket/io";
 import { Page } from "./page";
 import { SocketError } from "./errors";
 
-export { User, UserType, Socket, Page, IO };
+export { User, UserType, Socket, Page };
 
 export interface PromptControl {
   user: User;
@@ -22,7 +21,6 @@ export interface UpdateControl {
 
 export class Client {
   private user: User;
-  private code: string;
   private control: User;
   private intervals: { [k: string]: ReturnType<typeof setInterval> };
 
@@ -37,34 +35,22 @@ export class Client {
   ) {
     try {
       const state = this.state.get();
-      this.code = state.code;
       this.user = state.user;
       this.control = state.control;
     } catch (e) {
-      this.code = "";
       this.user = user;
       this.control = user.isHost() ? user : User.fromType(UserType.HOST);
     }
-    this.state.setCode(this.code).setUser(this.user);
+    this.state.setUser(this.user);
 
     this.intervals = {};
   }
 
-  setCode(c: string): this {
-    const code = `${this.clientId}:${c}`;
-    this.state.setCode(code);
-    this.code = code;
-    return this;
-  }
-
-  start(code?: string): this {
-    if (code) this.setCode(code);
-
+  start(): this {
     this.logger.info("conversa is starting...");
     this.page.setPermissions(Permissions.fromUser(this.user, this.control));
     this.updateControl({ accept: true, control: this.control });
     this.page.listen();
-    this.socket.connect(this.code);
 
     this.socket.onConnect(() => {
       this.logger.info("ready for conversa 🚀");

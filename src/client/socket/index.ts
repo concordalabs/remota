@@ -45,9 +45,8 @@ export interface SocketClient {
   // eslint-disable-next-line
   send(payload: any): void;
   // eslint-disable-next-line
-  emit(type: string, payload: any): void;
+  // emit(type: string, payload: any): void;
   close(): void;
-  connect(code: string): void;
   // eslint-disable-next-line
   on(event: string, cb: Function): void;
 }
@@ -58,12 +57,12 @@ export default class Socket {
   constructor(private socket: SocketClient) {}
 
   onConnect(cb: () => void): this {
-    this.socket.on("connect", cb);
+    this.socket.on("connection", cb);
     return this;
   }
 
   onConnectError(cb: (err: SocketConnectionError) => void): this {
-    this.socket.on("connect_error", cb);
+    this.socket.on("error", cb);
     return this;
   }
 
@@ -82,11 +81,6 @@ export default class Socket {
   onJoin(cb: (e: JoinEvent) => void): this {
     this.socket.on("message", cb);
     return this;
-  }
-
-  connect(code: string): void {
-    this.code = code;
-    this.socket.connect(code);
   }
 
   // eslint-disable-next-line

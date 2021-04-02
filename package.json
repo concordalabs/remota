@@ -14,7 +14,7 @@
     "build:tsc": "tsc",
     "build:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.min.js --target=es6 --bundle --minify --sourcemap",
     "watch:tsc": "npm run build:tsc -- --watch",
-    "watch:esbuild": "npm run build:esbuild -- --serve",
+    "watch:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.js --target=es6 --bundle --sourcemap --serve",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],
@@ -23,12 +23,10 @@
   "type": "module",
   "dependencies": {
     "eventemitter3": "^4.0.7",
-    "lodash": "^4.17.20",
-    "rrweb-snapshot": "^1.1.1",
-    "socket.io-client": "^3.0.0"
+    "robust-websocket": "^1.0.0",
+    "rrweb-snapshot": "^1.1.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.165",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "esbuild": "^0.11.2",

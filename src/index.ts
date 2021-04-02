@@ -1,13 +1,14 @@
 import UI from "./ui/index";
 import Client from "./client";
 import Page from "./client/page";
-import IO from "./client/socket/io";
+import WS from "./client/socket/websocket";
 import Socket from "./client/socket";
 import User, { UserType } from "./client/user";
 
 export type ClientConfig = {
   clientId: string;
   key: string;
+  code: string;
   url?: string;
 };
 
@@ -27,9 +28,10 @@ export default class Remota {
     if (!config.clientId || !config.key)
       throw new Error("Remota clientId or key are missing");
 
-    const io = new IO({
+    const io = new WS({
       url: config.url ?? "wss://remota.xyz",
       key: config.key,
+      code: config.code,
       clientId: config.clientId,
     });
     const socket = new Socket(io);
@@ -59,7 +61,7 @@ export default class Remota {
     const ui = new UI(User.fromType(config.type));
     ui.register(daemon);
 
-    return daemon;
+    return daemon.start();
   }
 
   static agent(config: ClientConfig): Client {
