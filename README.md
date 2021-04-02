@@ -27,7 +27,7 @@ import Remota from "@concordalabs/remota";
 
   remota.start(code);
   remota.onControlChangePrompt(({ user }) => remota.acceptControlChange(user))
-  remota.onJoinPrompt(({ user }) => remota.acceptUser(user))
+  remota.onClose(() => alert('Session ended'))
 })()
 ```
 
@@ -36,7 +36,7 @@ The example above is simplified to automatically try to connect to Remota in cas
 1. Get the query parameter
 2. Create a Remota session client as a host (the user will always be a session host)
 3. Start remota
-4. Define how to handle two Remota events: control change requests and other peers joining (the agent). In here, it will accept both automatically, but you can design a modal to get the confirmation (or use `window.confirm`).
+4. Define how to handle two Remota events: control change requests and session ending. In here, it will accept control requres automatically, but you can design a modal to get the confirmation (or use `window.confirm`).
 
 Once you have the above up example set-up, head to [remota.xyz](https://remota.xyz), and start a new session. With access code in hands, open your application using `http://your-app?code=YOUR_CODE_HERE`.
 
@@ -56,12 +56,6 @@ remota.onControlChangePrompt(({ user }) => window.confirm('Pass control?')
   : remota.denyControlChange())
 ```
 
-### remota.onJoinPrompt(({ user }) => { ... })
+### remota.onClose(() => { ... })
 
-It is triggered when an agent is joining the session. `.acceptUser(user)` and `.denyUser(user)` can be used to reply to this prompt. Example:
-
-```js
-remota.onJoinPrompt(({ user }) => window.confirm('Allow user?')
-  ? remota.acceptUser(user)
-  : remota.denyUser(user))
-```
+It is triggered when a user click on the `End` button from the UI. Usefull in case you want to show an alert or redirect the user somewhere.
