@@ -23,7 +23,7 @@ export type HostConfig = ClientConfig & {
 
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
-export { UserType, Socket, Page, Manager as Client, UI };
+export { UserType, Socket, Page, Manager, UI };
 
 export default class Remota {
   static create(config: Config): Manager {

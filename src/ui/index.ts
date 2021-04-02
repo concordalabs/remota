@@ -2,6 +2,9 @@ import * as template from "./template";
 import { Manager } from "../manager";
 import { User } from "../user";
 
+/**
+ * Default Remota UI. Can be used as based for customised ones.
+ */
 export class UI {
   private ui: HTMLElement;
   private style: HTMLStyleElement;

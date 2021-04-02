@@ -9,25 +9,26 @@
 
 ⚠️ You need to create an account at [remota.xyz](https://remota.xyz) before starting.
 
-First, install `@concordalabs/remota` package through npm or yarn. Once installed, add the following snippet somewhere in your application and import the created file at the start of your application.
+First, install Remota through one of the following methods:
+
+- `npm install @concordalabs/remota`
+- `yarn add @concordalabs/remota`
+- Add this to your HTML: `<script src="https://unpkg.com/@concordalabs/remota/dist/remota.min.js"></script>`
+
+Once installed, add the following snippet somewhere in your application and import the created file at the start of your application.
 
 ```js
-// src/remota.js
-import Remota from "@concordalabs/remota";
+import Remota from "@concordalabs/remota"; // only required if using npm/yarn method
 
 (() => {
   const query = new URLSearchParams(new URL(window.location.href).search);
   const code = query.get("code");
   if (!code) return;
 
-  const remota = Remota.host({
-    clientId: "local",
-    key: "local",
-  });
+  const remota = Remota.host({ clientId: "your-clientId", key: "your-key", code });
 
-  remota.start(code);
-  remota.onControlChangePrompt(({ user }) => remota.acceptControlChange(user))
-  remota.onClose(() => alert('Session ended'))
+  remota.onControlChangePrompt(({ user }) => remota.acceptControlChange(user));
+  remota.onClose(() => alert('session finished'));
 })()
 ```
 

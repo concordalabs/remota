@@ -50,6 +50,10 @@ export type SocketConnectionError = Error & {
   };
 };
 
+/**
+ * Socket client implementation, which allows Remota to communicate
+ * with the backend
+ */
 export interface SocketClient {
   // eslint-disable-next-line
   send(type: SocketMessages | PageMessages, payload: any): void;
@@ -63,6 +67,9 @@ export interface SocketClient {
   onJoin(cb: (e: JoinEvent) => void): this;
 }
 
+/**
+ * Implements SocketClient using robust-web-socket
+ */
 export class Socket implements SocketClient {
   public code: string;
   private socket: any;
