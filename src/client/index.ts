@@ -25,7 +25,6 @@ export class Client {
   private intervals: { [k: string]: ReturnType<typeof setInterval> };
 
   constructor(
-    private clientId: string,
     user: User,
     private socket: Socket,
     private page: Page,

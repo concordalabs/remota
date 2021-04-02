@@ -1,7 +1,6 @@
 import UI from "./ui/index";
 import Client from "./client";
 import Page from "./client/page";
-import WS from "./client/socket/websocket";
 import Socket from "./client/socket";
 import User, { UserType } from "./client/user";
 
@@ -10,6 +9,7 @@ export type ClientConfig = {
   key: string;
   code: string;
   url?: string;
+  ui?: UI;
 };
 
 export type AgentConfig = ClientConfig & {
@@ -23,18 +23,19 @@ export type HostConfig = ClientConfig & {
 
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
+export { UserType, Socket, Page, Client, UI };
+
 export default class Remota {
   static create(config: Config): Client {
     if (!config.clientId || !config.key)
       throw new Error("Remota clientId or key are missing");
 
-    const io = new WS({
+    const socket = new Socket({
       url: config.url ?? "wss://remota.xyz",
       key: config.key,
       code: config.code,
       clientId: config.clientId,
     });
-    const socket = new Socket(io);
 
     let page: Page;
     switch (config.type) {
@@ -51,17 +52,14 @@ export default class Remota {
       }
     }
 
-    const daemon = new Client(
-      config.clientId,
-      User.fromType(config.type),
-      socket,
-      page
-    );
+    const user = User.fromType(config.type);
+    const daemon = new Client(user, socket, page);
+    const ui = config.ui ? config.ui : new UI(user);
 
-    const ui = new UI(User.fromType(config.type));
     ui.register(daemon);
+    daemon.start();
 
-    return daemon.start();
+    return daemon;
   }
 
   static agent(config: ClientConfig): Client {

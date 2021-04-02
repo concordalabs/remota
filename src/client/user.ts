@@ -1,8 +1,21 @@
+/**
+ * Defines the user type
+ */
 export enum UserType {
+  /**
+   * Agent user type, which is the user using remota.xyz session client
+   */
   AGENT = 1,
+  /**
+   * Host user type, which is the user using your app (hosting the session)
+   */
   HOST,
 }
 
+/**
+ * Defines a user, based on an UserType. This class is used to run checks
+ * around access and control when required
+ */
 export default class User {
   constructor(public type: UserType, public name?: string) {}
 
