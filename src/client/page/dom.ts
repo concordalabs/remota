@@ -60,6 +60,7 @@ export default class DOM {
     return snapshot(document, {
       blockClass: "remoteSecured",
       maskAllInputs: false,
+      slimDOM: true,
     })[0];
   }
 }
