@@ -1,4 +1,4 @@
-import User from "../user";
+import { User } from "../user";
 
 export interface State {
   code: string;
@@ -6,7 +6,7 @@ export interface State {
   user: User;
 }
 
-export default class StateManager {
+export class StateManager {
   private key: string;
 
   constructor(key = "state", private storage = window.sessionStorage) {

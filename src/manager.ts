@@ -1,8 +1,8 @@
 import EventEmitter from "eventemitter3";
-import User, { UserType } from "./user";
-import StateManager from "./state";
-import Permissions from "./access";
-import Socket, { SocketMessages } from "./socket";
+import { User, UserType } from "./user";
+import { StateManager } from "./state";
+import { Permissions } from "./access";
+import { Socket, SocketMessages } from "./socket";
 import { Page } from "./page";
 import { SocketError } from "./errors";
 
@@ -19,7 +19,7 @@ export interface UpdateControl {
   overwrite?: boolean;
 }
 
-export class Client {
+export class Manager {
   private user: User;
   private control: User;
   private intervals: { [k: string]: ReturnType<typeof setInterval> };
@@ -178,5 +178,3 @@ export class Client {
     this.events.emit("close", {});
   }
 }
-
-export default Client;

@@ -1,7 +1,8 @@
 import * as template from "./template";
-import { Client, User } from "../client";
+import { Manager } from "../manager";
+import { User } from "../user";
 
-export default class UI {
+export class UI {
   private ui: HTMLElement;
   private style: HTMLStyleElement;
   private registered: boolean;
@@ -24,7 +25,7 @@ export default class UI {
   }
 
   // TODO: change me correctly
-  register(controller: Client): void {
+  register(controller: Manager): void {
     if (this.registered) return;
 
     this.onEnd((): void => {

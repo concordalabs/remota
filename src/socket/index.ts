@@ -1,6 +1,6 @@
 // @ts-ignore
 import ws from "robust-websocket";
-import { PromptControl, UpdateControl } from "../";
+import { PromptControl, UpdateControl } from "../manager";
 
 export type Config = {
   url: string;
@@ -54,11 +54,8 @@ export interface SocketClient {
   // eslint-disable-next-line
   send(type: SocketMessages | PageMessages, payload: any): void;
   // eslint-disable-next-line
-  // emit(type: string, payload: any): void;
-  close(): void;
-  // eslint-disable-next-line
   on(event: string, cb: Function): void;
-
+  close(): void;
   onConnect(cb: () => void): this;
   onConnectError(cb: (err: SocketConnectionError) => void): this;
   onMessage(cb: (e: MessageEvent) => void): this;
@@ -66,7 +63,7 @@ export interface SocketClient {
   onJoin(cb: (e: JoinEvent) => void): this;
 }
 
-export default class Socket implements SocketClient {
+export class Socket implements SocketClient {
   public code: string;
   private socket: any;
   private url: URL;

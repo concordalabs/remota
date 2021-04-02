@@ -16,7 +16,7 @@ export enum UserType {
  * Defines a user, based on an UserType. This class is used to run checks
  * around access and control when required
  */
-export default class User {
+export class User {
   constructor(public type: UserType, public name?: string) {}
 
   isSame(actor: this): boolean {

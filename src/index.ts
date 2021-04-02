@@ -1,8 +1,8 @@
-import UI from "./ui/index";
-import Client from "./client";
-import Page from "./client/page";
-import Socket from "./client/socket";
-import User, { UserType } from "./client/user";
+import { UI } from "./ui/index";
+import { Manager } from "./manager";
+import { Page } from "./page";
+import { Socket } from "./socket";
+import { User, UserType } from "./user";
 
 export type ClientConfig = {
   clientId: string;
@@ -23,10 +23,10 @@ export type HostConfig = ClientConfig & {
 
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
 
-export { UserType, Socket, Page, Client, UI };
+export { UserType, Socket, Page, Manager as Client, UI };
 
 export default class Remota {
-  static create(config: Config): Client {
+  static create(config: Config): Manager {
     if (!config.clientId || !config.key)
       throw new Error("Remota clientId or key are missing");
 
@@ -53,7 +53,7 @@ export default class Remota {
     }
 
     const user = User.fromType(config.type);
-    const daemon = new Client(user, socket, page);
+    const daemon = new Manager(user, socket, page);
     const ui = config.ui ? config.ui : new UI(user);
 
     ui.register(daemon);
@@ -62,11 +62,11 @@ export default class Remota {
     return daemon;
   }
 
-  static agent(config: ClientConfig): Client {
+  static agent(config: ClientConfig): Manager {
     return Remota.create({ ...config, type: UserType.AGENT });
   }
 
-  static host(config: ClientConfig): Client {
+  static host(config: ClientConfig): Manager {
     return Remota.create({ ...config, type: UserType.HOST });
   }
 }

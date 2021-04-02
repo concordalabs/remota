@@ -3,9 +3,8 @@ import TextInput from "./text-input";
 import Scroll from "./scroll";
 import Mouse from "./mouse";
 import Url from "./url";
-import { snapshot } from "rrweb-snapshot";
 import { EmitterAccess } from "../access";
-import Socket, { PageMessages } from "../socket";
+import { Socket, PageMessages } from "../socket";
 
 export class Page {
   private dom: DOM;
@@ -98,5 +97,3 @@ export class Page {
     this.mouse.close();
   }
 }
-
-export default Page;

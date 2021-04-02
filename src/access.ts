@@ -1,4 +1,4 @@
-import User from "./user";
+import { User } from "./user";
 
 export enum EmitterAccess {
   CursorChange = 1,
@@ -27,7 +27,7 @@ export const AgentWrite = [
 
 export const AgentRead = [EmitterAccess.CursorChange];
 
-export default class Permissions {
+export class Permissions {
   static fromUser(user: User, control: User): EmitterAccess[] {
     if (user.isSame(control)) {
       return user.isHost() ? HostWrite : AgentWrite;
