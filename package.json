@@ -14,7 +14,8 @@
     "build:tsc": "tsc",
     "build:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.min.js --target=es6 --bundle --minify --sourcemap",
     "watch:tsc": "npm run build:tsc -- --watch",
-    "watch:esbuild": "npm run build:esbuild -- --serve"
+    "watch:esbuild": "npm run build:esbuild -- --serve",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "Bruno Luiz da Silva <contact@brunoluiz.net> (http://brunoluiz.net/)",
