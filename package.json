@@ -22,7 +22,6 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@anephenix/sarus": "^0.4.1",
     "eventemitter3": "^4.0.7",
     "lodash": "^4.17.20",
     "robust-websocket": "^1.0.0",
