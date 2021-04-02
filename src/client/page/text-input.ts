@@ -1,6 +1,6 @@
 // @ts-ignore
 import cssPath from "./css-path";
-import debounce from "lodash/debounce";
+import { debounce } from "./timers";
 
 export interface TextInputUpdate {
   path: string;

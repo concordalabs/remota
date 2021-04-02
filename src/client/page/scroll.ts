@@ -1,4 +1,4 @@
-import throttle from "lodash/throttle";
+import { throttle } from "./timers";
 
 export interface ScrollUpdate {
   scrollX: number;

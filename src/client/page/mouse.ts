@@ -1,5 +1,5 @@
 import cssPath from "./css-path";
-import throttle from "lodash/throttle";
+import { throttle } from "./timers";
 
 export interface MouseClick {
   element: string;

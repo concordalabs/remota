@@ -23,12 +23,10 @@
   "type": "module",
   "dependencies": {
     "eventemitter3": "^4.0.7",
-    "lodash": "^4.17.20",
     "robust-websocket": "^1.0.0",
     "rrweb-snapshot": "^1.1.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.165",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "esbuild": "^0.11.2",
