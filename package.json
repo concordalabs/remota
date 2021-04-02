@@ -24,7 +24,7 @@
   "dependencies": {
     "eventemitter3": "^4.0.7",
     "lodash": "^4.17.20",
-    "rrweb-snapshot": "^1.0.1",
+    "rrweb-snapshot": "^1.1.1",
     "socket.io-client": "^3.0.0"
   },
   "devDependencies": {
