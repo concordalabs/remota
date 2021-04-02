@@ -26,11 +26,11 @@ export enum PageMessages {
   PermissionsChanged,
 }
 
-export interface MessageEvent {
+export type MessageEvent = {
   type: SocketMessages;
   // eslint-disable-next-line
   payload: any;
-}
+};
 
 export type ControlEvent = {
   type: SocketMessages.ControlUpdate;

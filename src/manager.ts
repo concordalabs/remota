@@ -8,16 +8,16 @@ import { SocketError } from "./errors";
 
 export { User, UserType, Socket, Page };
 
-export interface PromptControl {
+export type PromptControl = {
   user: User;
-}
+};
 
-export interface UpdateControl {
+export type UpdateControl = {
   accept: boolean;
   control: User;
   isControlling?: boolean;
   overwrite?: boolean;
-}
+};
 
 /**
  * Remota main class, returned when the Remota.agent/host is called. It enables developers
