@@ -43,8 +43,7 @@ Now both clients should be connected and you should be able to co-browse.
 
 ## API
 
-The following methods are used in the most simple set-ups and will already be integrated with the default UI. Check our TypeScript documentation 
-for more details if you want to create a custom UI.
+The following methods are used in the most simple set-ups and will already be integrated with the default UI. Check our [TypeScript documentation](https://concordalabs.github.io/remota) in case you need to have access to other APIs (useful for custom UIs).
 
 ### .onControlChangePrompt(({ user }) => { ... })
 
