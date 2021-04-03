@@ -13,9 +13,10 @@
     "build": "npm run build:tsc && npm run build:esbuild",
     "build:tsc": "tsc",
     "build:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.min.js --target=es6 --bundle --minify --sourcemap",
+    "build:doc": "typedoc --options ./.typedoc.json",
     "watch:tsc": "npm run build:tsc -- --watch",
     "watch:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.js --target=es6 --bundle --sourcemap --serve",
-    "watch:docs": "typedoc src/index.ts --watch",
+    "watch:docs": "npm run build:doc -- --watch",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],

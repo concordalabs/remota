@@ -1,0 +1,17 @@
+{
+    "disableSources": false,
+    "exclude": [
+      "./src/socket/",
+      "./src/state/",
+      "./src/page/",
+      "./src/access.ts",
+      "./src/ui/template.ts"
+    ],
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "excludeInternal": true,
+    "includeVersion":  true,
+    "entryPoints": ["./src/index.ts"],
+    "name": "Remota",
+    "out": "docs"
+}

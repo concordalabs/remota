@@ -3,13 +3,28 @@ import { Manager } from "../manager";
 import { User } from "../user";
 
 /**
- * Default Remota UI. Can be used as based for customised ones.
+ * Defines the UI interface
  */
-export class UI {
+export interface UI {
+  /**
+   * Register the UI with a Remota session manager (required to make UI work)
+   */
+  register(manager: Manager): void;
+  close(): void;
+}
+
+/**
+ * Default Remota UI. Can be used as a base for customised ones.
+ */
+export class CommonUI implements UI {
   private ui: HTMLElement;
   private style: HTMLStyleElement;
   private registered: boolean;
 
+  /**
+   * Returns an UI instance. Depending on the UserType, some UI components might be different,
+   * as agents and hosts have different types of features.
+   */
   constructor(user: User) {
     this.registered = false;
     this.ui = document.createElement("div");
@@ -27,25 +42,27 @@ export class UI {
     label.innerText = user.isHost() ? "Revoke" : "Request";
   }
 
-  // TODO: change me correctly
-  register(controller: Manager): void {
+  /**
+   * Register the UI with a Remota session manager (required to make UI work)
+   */
+  register(manager: Manager): void {
     if (this.registered) return;
 
     this.onEnd((): void => {
-      controller.close();
+      manager.close();
       this.close();
     });
 
     this.onRequestControl((): void => {
-      controller.requestControlChange();
+      manager.requestControlChange();
     });
 
-    controller.onConnect((): void => {
+    manager.onConnect((): void => {
       const el = document.querySelector("#__remote-status-bar-status");
       if (el) el.innerHTML = "Connected";
     });
 
-    controller.onControlUpdate(({ isControlling }): void => {
+    manager.onControlUpdate(({ isControlling }): void => {
       const statusBar = document.querySelector<HTMLElement>(
         "#__remote-status-bar-control"
       );
@@ -67,14 +84,14 @@ export class UI {
   }
 
   // eslint-disable-next-line
-  onEnd(cb: (e: any) => void) {
+  private onEnd(cb: (e: any) => void) {
     const el = document.querySelector("#__remote-status-bar-end");
     if (el) el.addEventListener("click", (e) => cb(e));
     return this;
   }
 
   // eslint-disable-next-line
-  onRequestControl(cb: (e: any) => void) {
+  private onRequestControl(cb: (e: any) => void) {
     const el = document.querySelector("#__remote-status-bar-request-control");
     if (el) el.addEventListener("click", (e) => cb(e));
     return this;

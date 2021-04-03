@@ -27,6 +27,9 @@ export class Manager {
   private control: User;
   private intervals: { [k: string]: ReturnType<typeof setInterval> };
 
+  /**
+   * @internal
+   */
   constructor(
     user: User,
     private socket: Socket,

@@ -1,38 +1,58 @@
 import { User } from "./user";
 
-export enum EmitterAccess {
-  CursorChange = 1,
-  CursorClick,
-  ScrollChange,
-  DOMChange,
-  TextInputChange,
+/**
+ * Defines user permissions during the session. These are related to what the user
+ * can emit back to the other peer.
+ * @internal
+ */
+export enum Permission {
+  EmitCursorChange = 1,
+  EmitCursorClick,
+  EmitScrollChange,
+  EmitDOMChange,
+  EmitTextInputChange,
 }
 
-export const HostWrite = [
-  EmitterAccess.CursorChange,
-  EmitterAccess.CursorClick,
-  EmitterAccess.ScrollChange,
-  EmitterAccess.DOMChange,
-  EmitterAccess.TextInputChange,
+const HostControl = [
+  Permission.EmitCursorChange,
+  Permission.EmitCursorClick,
+  Permission.EmitScrollChange,
+  Permission.EmitDOMChange,
+  Permission.EmitTextInputChange,
 ];
 
-export const HostRead = [EmitterAccess.CursorChange, EmitterAccess.DOMChange];
-
-export const AgentWrite = [
-  EmitterAccess.CursorChange,
-  EmitterAccess.CursorClick,
-  EmitterAccess.ScrollChange,
-  EmitterAccess.TextInputChange,
+const HostSharedControl = [
+  Permission.EmitCursorChange,
+  Permission.EmitDOMChange,
 ];
 
-export const AgentRead = [EmitterAccess.CursorChange];
+const AgentSharedControl = [
+  Permission.EmitCursorChange,
+  Permission.EmitCursorClick,
+  Permission.EmitScrollChange,
+  Permission.EmitTextInputChange,
+];
 
+const AgentView = [Permission.EmitCursorChange];
+
+/**
+ * Factory for EmitterAccess permissions
+ */
 export class Permissions {
-  static fromUser(user: User, control: User): EmitterAccess[] {
+  /**
+   * @internal
+   */
+  constructor() {}
+
+  /**
+   * Returns the correct level of access a user can have, based on which user is
+   * in control.
+   */
+  static fromUser(user: User, control: User): Permission[] {
     if (user.isSame(control)) {
-      return user.isHost() ? HostWrite : AgentWrite;
+      return user.isHost() ? HostControl : AgentSharedControl;
     }
 
-    return user.isHost() ? HostRead : AgentRead;
+    return user.isHost() ? HostSharedControl : AgentView;
   }
 }

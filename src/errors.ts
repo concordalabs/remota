@@ -1,3 +1,6 @@
+/**
+ * Error returned due to issues in the Socket connection
+ */
 export class SocketError extends Error {
   public data: { description: string };
 

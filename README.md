@@ -20,16 +20,14 @@ Once installed, add the following snippet somewhere in your application and impo
 ```js
 import Remota from "@concordalabs/remota"; // only required if using npm/yarn method
 
-(() => {
-  const query = new URLSearchParams(new URL(window.location.href).search);
-  const code = query.get("code");
-  if (!code) return;
+const query = new URLSearchParams(new URL(window.location.href).search);
+const code = query.get("code");
+if (!code) return;
 
-  const remota = Remota.host({ clientId: "your-clientId", key: "your-key", code });
+const remota = Remota.host({ clientId: "your-clientId", key: "your-key", code });
 
-  remota.onControlChangePrompt(({ user }) => remota.acceptControlChange(user));
-  remota.onClose(() => alert('session finished'));
-})()
+remota.onControlChangePrompt(({ user }) => remota.acceptControlChange(user));
+remota.onClose(() => alert('session finished'));
 ```
 
 The example above is simplified to automatically try to connect to Remota in case you pass `code` as a URL query parameter. It does the following:
@@ -45,7 +43,8 @@ Now both clients should be connected and you should be able to co-browse.
 
 ## API
 
-⚠️ At the moment, although in TypeScript, methods still need to be properly documented. This should allow anyone to create their own branded UIs, if required. The following methods are used in the most simple set-ups and will already be integrated with the embedded UI.
+The following methods are used in the most simple set-ups and will already be integrated with the default UI. Check our TypeScript documentation 
+for more details if you want to create a custom UI.
 
 ### .onControlChangePrompt(({ user }) => { ... })
 

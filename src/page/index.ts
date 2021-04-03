@@ -3,7 +3,7 @@ import TextInput from "./text-input";
 import Scroll from "./scroll";
 import Mouse from "./mouse";
 import Url from "./url";
-import { EmitterAccess } from "../access";
+import { Permission } from "../access";
 import { Socket, PageMessages } from "../socket";
 
 /**
@@ -20,7 +20,7 @@ export class Page {
   constructor(
     private emitter: Socket,
     domAccessor = "body",
-    private permissions = [EmitterAccess.CursorChange]
+    private permissions = [Permission.EmitCursorChange]
   ) {
     this.dom = new DOM(domAccessor);
     this.textInput = new TextInput();
@@ -30,39 +30,39 @@ export class Page {
   }
 
   dump(): void {
-    this.permissions.includes(EmitterAccess.DOMChange) &&
+    this.permissions.includes(Permission.EmitDOMChange) &&
       this.emitter.send(PageMessages.DOMChanged, {
         html: this.dom.dump(),
       });
   }
 
-  setPermissions(permissions: EmitterAccess[]): void {
+  setPermissions(permissions: Permission[]): void {
     this.permissions = permissions;
   }
 
   listen(): void {
     this.mouse.onMove((e): void => {
-      this.permissions.includes(EmitterAccess.CursorChange) &&
+      this.permissions.includes(Permission.EmitCursorChange) &&
         this.emitter.send(PageMessages.CursorMoved, e);
     });
 
     this.mouse.onClick((e): void => {
-      this.permissions.includes(EmitterAccess.CursorClick) &&
+      this.permissions.includes(Permission.EmitCursorClick) &&
         this.emitter.send(PageMessages.CursorClicked, e);
     });
 
     this.scroll.onChange((e): void => {
-      this.permissions.includes(EmitterAccess.ScrollChange) &&
+      this.permissions.includes(Permission.EmitScrollChange) &&
         this.emitter.send(PageMessages.ScrollChanged, e);
     });
 
     this.dom.onChange((e): void => {
-      this.permissions.includes(EmitterAccess.DOMChange) &&
+      this.permissions.includes(Permission.EmitDOMChange) &&
         this.emitter.send(PageMessages.DOMChanged, e);
     });
 
     this.textInput.onChange((e): void => {
-      this.permissions.includes(EmitterAccess.TextInputChange) &&
+      this.permissions.includes(Permission.EmitTextInputChange) &&
         this.emitter.send(PageMessages.TextInputChanged, e);
     });
   }

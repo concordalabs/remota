@@ -19,14 +19,9 @@ export enum UserType {
 export class User {
   constructor(public type: UserType, public name?: string) {}
 
-  isSame(actor: this): boolean {
-    return this.type === actor.type;
-  }
-
-  isHost(): boolean {
-    return this.type === UserType.HOST;
-  }
-
+  /**
+   * Creates user based on UserType, pre-populating some internal fields
+   */
   static fromType(t: UserType): User {
     switch (t) {
       case UserType.AGENT:
@@ -38,6 +33,23 @@ export class User {
     }
   }
 
+  /**
+   * @internal
+   */
+  isSame(actor: this): boolean {
+    return this.type === actor.type;
+  }
+
+  /**
+   * @internal
+   */
+  isHost(): boolean {
+    return this.type === UserType.HOST;
+  }
+
+  /**
+   * @internal
+   */
   // eslint-disable-next-line
   static fromJSON(json: any): User {
     return new User(json.type, json.name);
