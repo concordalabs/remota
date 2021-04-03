@@ -6,7 +6,7 @@ import Url from "./url";
 import { EmitterAccess } from "../access";
 import { Socket, PageMessages } from "../socket";
 
-/*
+/**
  * Contains DOM page handlers, responsible for gathering user interactions and send
  * to other peers.
  */

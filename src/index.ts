@@ -1,7 +1,7 @@
-import { UI } from "./ui/index";
 import { Manager } from "./manager";
 import { Page } from "./page";
 import { Socket } from "./socket";
+import { UI } from "./ui";
 import { User, UserType } from "./user";
 
 export type ClientConfig = {
@@ -22,8 +22,6 @@ export type HostConfig = ClientConfig & {
 };
 
 export type Config = (AgentConfig | HostConfig) & ClientConfig;
-
-export { UserType, Socket, Page, Manager, UI };
 
 export default class Remota {
   static create(config: Config): Manager {

@@ -6,8 +6,6 @@ import { Socket, SocketMessages } from "./socket";
 import { Page } from "./page";
 import { SocketError } from "./errors";
 
-export { User, UserType, Socket, Page };
-
 export type PromptControl = {
   user: User;
 };
