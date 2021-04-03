@@ -24,6 +24,8 @@ export enum PageMessages {
   TextInputChanged,
   URLChanged,
   PermissionsChanged,
+  HighlightChanged,
+  HighlightReset,
 }
 
 export type MessageEvent = {
@@ -85,7 +87,7 @@ export class Socket implements SocketClient {
   }
 
   onConnect(cb: () => void): this {
-    this.on("connection", cb);
+    this.on("open", cb);
     return this;
   }
 
@@ -114,7 +116,8 @@ export class Socket implements SocketClient {
   // eslint-disable-next-line
   on(event: string, cb: Function): void {
     this.socket.addEventListener(event, (e: any) => {
-      cb(JSON.parse(e.data));
+      const data = e.data ? e.data : null;
+      cb(JSON.parse(data));
     });
   }
 

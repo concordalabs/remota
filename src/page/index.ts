@@ -3,6 +3,7 @@ import TextInput from "./text-input";
 import Scroll from "./scroll";
 import Mouse from "./mouse";
 import Url from "./url";
+import { Highlighter } from "./highlight";
 import { Permission } from "../access";
 import { Socket, PageMessages } from "../socket";
 
@@ -21,6 +22,7 @@ export class Page {
   private scroll: Scroll;
   private mouse: Mouse;
   private url: Url;
+  private highlighter: Highlighter;
   private permissions: Permission[];
 
   constructor(private emitter: Socket, config?: Config) {
@@ -29,7 +31,8 @@ export class Page {
     this.scroll = new Scroll();
     this.mouse = new Mouse();
     this.url = new Url();
-    this.permissions = [Permission.EmitCursorChange];
+    this.highlighter = new Highlighter();
+    this.permissions = [];
   }
 
   dump(): void {
@@ -43,6 +46,9 @@ export class Page {
 
   setPermissions(permissions: Permission[]): void {
     this.permissions = permissions;
+    this.highlighter.enabled = permissions.includes(
+      Permission.EmitHighlightChange
+    );
   }
 
   listen(): void {
@@ -70,6 +76,16 @@ export class Page {
       this.permissions.includes(Permission.EmitTextInputChange) &&
         this.emitter.send(PageMessages.TextInputChanged, e);
     });
+
+    this.highlighter.onHighlight((e): void => {
+      this.permissions.includes(Permission.EmitHighlightChange) &&
+        this.emitter.send(PageMessages.HighlightChanged, e);
+    });
+
+    this.highlighter.onReset((): void => {
+      this.permissions.includes(Permission.EmitHighlightChange) &&
+        this.emitter.send(PageMessages.HighlightReset, null);
+    });
   }
 
   // eslint-disable-next-line
@@ -78,6 +94,10 @@ export class Page {
     if (upstream) return; // FIXME: there must be a better way than this
 
     switch (type) {
+      case PageMessages.HighlightReset:
+        return this.highlighter.reset();
+      case PageMessages.HighlightChanged:
+        return this.highlighter.update(payload);
       case PageMessages.ScrollChanged:
         return this.scroll.update(payload);
       case PageMessages.CursorMoved:
@@ -89,9 +109,11 @@ export class Page {
       case PageMessages.URLChanged:
         return this.url.refresh(payload);
       case PageMessages.DOMChanged:
-        return this.dom.update({
+        this.dom.update({
           ...payload,
         });
+        this.highlighter.updatePixelRatio();
+        return;
       case PageMessages.DOMRequested:
         return this.dump();
       default:
@@ -104,5 +126,6 @@ export class Page {
     this.textInput.close();
     this.scroll.close();
     this.mouse.close();
+    this.highlighter.close();
   }
 }

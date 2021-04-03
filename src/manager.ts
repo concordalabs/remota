@@ -219,11 +219,10 @@ export class Manager {
   close(): void {
     this.logger.info("closing");
     this.state.clear();
-    //
-    // this.page.close(); // TODO: re-activate this
+    this.page.close();
 
     Object.values(this.intervals).forEach((i) => clearInterval(i));
-    if (this.socket) this.socket.close();
     this.events.emit("close", {});
+    this.socket.close();
   }
 }

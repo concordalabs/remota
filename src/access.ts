@@ -11,6 +11,7 @@ export enum Permission {
   EmitScrollChange,
   EmitDOMChange,
   EmitTextInputChange,
+  EmitHighlightChange,
 }
 
 const HostControl = [
@@ -33,7 +34,7 @@ const AgentSharedControl = [
   Permission.EmitTextInputChange,
 ];
 
-const AgentView = [Permission.EmitCursorChange];
+const AgentView = [Permission.EmitCursorChange, Permission.EmitHighlightChange];
 
 /**
  * Factory for EmitterAccess permissions

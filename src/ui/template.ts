@@ -30,7 +30,7 @@ export const CSS = `
   margin-bottom: 4px;
   background: #52c41a85;
   border-radius: 2px;
-  padding: 5px 5px;
+  padding: 5px 14px;
   text-align: center;
 }
 
@@ -84,7 +84,16 @@ export const CSS = `
   height: 100%;
   border: 4px solid #333;
   box-sizing: border-box;
-  pointer-events: none; 
+  pointer-events: none;
+  z-index: 999;
+}
+
+#__remote-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 9999;
 }
 
@@ -123,13 +132,14 @@ const EndIcon = `
 export const HTML = `
 <div class='remoteSecured'>
   ${CursorIcon}
-  <canvas id='__remote-status-overlay'></canvas>
+  <div id='__remote-status-overlay'></div>
+  <canvas id='__remote-highlight'></canvas>
   <div id='__remote-status-bar-container'>
     <div id='__remote-status-bar'>
       <div class='__remote-status-bar-item'>
         <div class='__remote-status-bar-details'>
           <div id='__remote-status-bar-status' >Connecting...</div>
-          <div id='__remote-status-bar-control'>You have control</div>
+          <div id='__remote-status-bar-control'></div>
         </div>
         <div id='__remote-status-bar-request-control' class='__remote-status-bar-actions'>
           ${ControlIcon}<div class='__remote-status-bar-actions-label'>Request</div>

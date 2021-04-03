@@ -25,7 +25,7 @@ export class CommonUI implements UI {
    * Returns an UI instance. Depending on the UserType, some UI components might be different,
    * as agents and hosts have different types of features.
    */
-  constructor(user: User) {
+  constructor(private user: User) {
     this.registered = false;
     this.ui = document.createElement("div");
     this.ui.innerHTML = template.HTML;
@@ -62,24 +62,36 @@ export class CommonUI implements UI {
       if (el) el.innerHTML = "Connected";
     });
 
-    manager.onControlUpdate(({ isControlling }): void => {
+    manager.onControlUpdate(({ isControlling, control }): void => {
       const statusBar = document.querySelector<HTMLElement>(
         "#__remote-status-bar-control"
       );
       if (!statusBar) return;
 
-      const overlay = document.querySelector<HTMLIFrameElement>(
+      const overlay = document.querySelector<HTMLElement>(
         "#__remote-status-overlay"
       );
       if (!overlay) return;
 
-      if (isControlling) {
-        statusBar.innerHTML = "You have control";
+      const controlBtn = document.querySelector<HTMLElement>(
+        "#__remote-status-bar-request-control"
+      );
+      if (!controlBtn) return;
+
+      if (control.isSame(this.user)) {
+        statusBar.innerHTML = this.user.isHost()
+          ? "Agent is viewing"
+          : "Shared control";
         overlay.style.border = "4px solid #52c41a";
       } else {
-        statusBar.innerHTML = "Peer have control";
+        statusBar.innerHTML = this.user.isHost()
+          ? "Shared control"
+          : "Highlighting";
         overlay.style.border = "4px solid #f5222d";
+        controlBtn.style.display = this.user.isHost() ? "none" : "block";
       }
+
+      controlBtn.style.display = isControlling ? "none" : "block";
     });
   }
 
