@@ -4,4 +4,4 @@ node_modules
 .dist
 .npmrc
 dist
-
+docs
