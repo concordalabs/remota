@@ -3,18 +3,27 @@ import { rebuild, snapshot } from "rrweb-snapshot";
 interface DOMUpdate {
   // eslint-disable-next-line
   html: any;
+  width: number;
+  height: number;
 }
 
 export default class DOM {
   private closers: (() => void)[] = [];
+  private offset: number;
 
-  constructor(private accessor: string) {}
+  constructor(private accessor: string) {
+    this.offset = window.outerHeight - window.innerHeight;
+  }
 
   onChange(cb: (e: DOMUpdate) => void): MutationObserver {
     const MutationObserver = window.MutationObserver;
     const obj = document.querySelector(this.accessor)?.parentElement;
     const callback = () => {
-      cb({ html: this.dump() });
+      cb({
+        html: this.dump(),
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
     };
 
     if (!obj || obj.nodeType !== 1) throw new Error("Object not accessible");
@@ -27,12 +36,13 @@ export default class DOM {
     return mutationObserver;
   }
 
-  update({ html }: DOMUpdate): void {
+  update({ html, width, height }: DOMUpdate): void {
     const [node] = rebuild(html, {
       doc: document.implementation.createHTMLDocument("x"),
     });
 
-    const el = document.querySelector(this.accessor);
+    const el = document.querySelector<HTMLElement>(this.accessor);
+    if (!el) return;
     // @ts-ignore
     el.innerHTML = node.body.parentElement.outerHTML;
 
@@ -47,6 +57,23 @@ export default class DOM {
         item.href = "#";
       }
     }
+
+    this.resize(width, height);
+  }
+
+  private resize(width: number, height: number): void {
+    if (window.name !== "remota") return;
+    if (window.innerWidth === width && window.innerHeight === height) return;
+
+    const el = document.querySelector<HTMLElement>(this.accessor);
+    if (window.screen.availWidth < width && el) {
+      const factor = width / window.screen.availWidth;
+      window.resizeTo(width * factor, height * factor + this.offset);
+      el.style.zoom = `${factor}`;
+      return;
+    }
+
+    window.resizeTo(width, height + this.offset);
   }
 
   close(): void {

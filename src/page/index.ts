@@ -33,6 +33,8 @@ export class Page {
     this.permissions.includes(Permission.EmitDOMChange) &&
       this.emitter.send(PageMessages.DOMChanged, {
         html: this.dom.dump(),
+        width: window.innerWidth,
+        height: window.innerHeight,
       });
   }
 
