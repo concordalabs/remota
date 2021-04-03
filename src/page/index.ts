@@ -6,6 +6,11 @@ import Url from "./url";
 import { Permission } from "../access";
 import { Socket, PageMessages } from "../socket";
 
+export type Config = {
+  selector?: string;
+  maskAllInputs?: boolean;
+};
+
 /**
  * Contains DOM page handlers, responsible for gathering user interactions and send
  * to other peers.
@@ -16,17 +21,15 @@ export class Page {
   private scroll: Scroll;
   private mouse: Mouse;
   private url: Url;
+  private permissions: Permission[];
 
-  constructor(
-    private emitter: Socket,
-    domAccessor = "body",
-    private permissions = [Permission.EmitCursorChange]
-  ) {
-    this.dom = new DOM(domAccessor);
+  constructor(private emitter: Socket, config?: Config) {
+    this.dom = new DOM(config?.selector, config?.maskAllInputs);
     this.textInput = new TextInput();
     this.scroll = new Scroll();
     this.mouse = new Mouse();
     this.url = new Url();
+    this.permissions = [Permission.EmitCursorChange];
   }
 
   dump(): void {

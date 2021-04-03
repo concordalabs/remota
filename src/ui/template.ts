@@ -123,7 +123,7 @@ const EndIcon = `
 export const HTML = `
 <div class='remoteSecured'>
   ${CursorIcon}
-  <div id='__remote-status-overlay'></div>
+  <canvas id='__remote-status-overlay'></canvas>
   <div id='__remote-status-bar-container'>
     <div id='__remote-status-bar'>
       <div class='__remote-status-bar-item'>

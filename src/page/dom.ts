@@ -11,7 +11,10 @@ export default class DOM {
   private closers: (() => void)[] = [];
   private offset: number;
 
-  constructor(private accessor: string) {
+  constructor(
+    private accessor: string = "body",
+    private maskAllInputs: boolean = false
+  ) {
     this.offset = window.outerHeight - window.innerHeight;
   }
 
@@ -86,7 +89,7 @@ export default class DOM {
   dump() {
     return snapshot(document, {
       blockClass: "remoteSecured",
-      maskAllInputs: false,
+      maskAllInputs: this.maskAllInputs,
     })[0];
   }
 }

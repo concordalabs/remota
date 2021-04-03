@@ -33,6 +33,10 @@ export type ClientConfig = {
    * Use custom UI, if provided
    */
   ui?: UI;
+  /**
+   * Mask all user inputs
+   */
+  maskAllInputs?: boolean;
 };
 
 /**
@@ -76,7 +80,10 @@ export default class Remota {
     let page: Page;
     switch (config.type) {
       case UserType.AGENT: {
-        page = new Page(socket, config.selector);
+        page = new Page(socket, {
+          selector: config.selector,
+          maskAllInputs: config.maskAllInputs,
+        });
         break;
       }
       case UserType.HOST: {
@@ -101,13 +108,14 @@ export default class Remota {
   /**
    * Starts a Remota session in the agent browser (usually through remota.xyz), which is going to
    * be the peer supporting the host user.
+   * @internal
    */
   static agent(config: ClientConfig): Manager {
     return Remota.create({ ...config, type: UserType.AGENT });
   }
 
   /**
-   * Starts a Remota session in your user browser, which is going to be the session host
+   * Starts a Remota session in your user's browser, which is going to be the session host
    */
   static host(config: ClientConfig): Manager {
     return Remota.create({ ...config, type: UserType.HOST });
