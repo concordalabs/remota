@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Remota - v0.8.1</title>
-	<meta name="description" content="Documentation for Remota - v0.8.1">
+	<title>Remota - v0.8.2</title>
+	<meta name="description" content="Documentation for Remota - v0.8.2">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script async src="assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">Remota - v0.8.1</a>
+					<a href="index.html" class="title">Remota - v0.8.2</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -50,7 +50,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<h1>Remota - v0.8.1</h1>
+			<h1>Remota - v0.8.2</h1>
 		</div>
 	</div>
 </header>
@@ -94,6 +94,12 @@
 				</ol>
 				<p>Once you have the above up example set-up, head to <a href="https://remota.xyz">remota.xyz</a>, and start a new session. With access code in hands, open your application using <code>http://your-app?code=YOUR_CODE_HERE</code>.</p>
 				<p>Now both clients should be connected and you should be able to co-browse.</p>
+				<a href="#hiding-private-data" id="hiding-private-data" style="color: inherit; text-decoration: none;">
+					<h3>Hiding private data</h3>
+				</a>
+				<p>If you need to block private information from your agents (example: password and bank details), add <code>remoteSecured</code> class to the HTML component:</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;input</span><span style="color: #000000"> </span><span style="color: #FF0000">class</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;remoteSecured&quot;</span><span style="color: #000000"> </span><span style="color: #FF0000">name</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;bank_sort_code&quot;</span><span style="color: #000000"> </span><span style="color: #FF0000">value</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;000000&quot;</span><span style="color: #000000"> </span><span style="color: #800000">/&gt;</span>
+</code></pre>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
