@@ -41,6 +41,14 @@ Once you have the above up example set-up, head to [remota.xyz](https://remota.x
 
 Now both clients should be connected and you should be able to co-browse.
 
+### Hiding private data
+
+If you need to block private information from your agents (example: password and bank details), add `remoteSecured` class to the HTML component:
+
+```html
+<input class="remoteSecured" name="bank_sort_code" value="000000" />
+```
+
 ## API
 
 The following methods are used in the most simple set-ups and will already be integrated with the default UI. Check our [TypeScript documentation](https://concordalabs.github.io/remota) in case you need to have access to other APIs (useful for custom UIs).
