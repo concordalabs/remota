@@ -3,6 +3,7 @@ import { Page } from "./page";
 import { Socket } from "./socket";
 import { CommonUI, UI } from "./ui";
 import { User, UserType } from "./user";
+import { StateManager } from "./state";
 
 export * as Manager from "./manager";
 export * as UI from "./ui";
@@ -77,6 +78,9 @@ export default class Remota {
       clientId: config.clientId,
     });
 
+    const state = new StateManager();
+    state.setCode(config.code);
+
     let page: Page;
     switch (config.type) {
       case UserType.AGENT: {
@@ -96,13 +100,18 @@ export default class Remota {
     }
 
     const user = User.fromType(config.type);
-    const daemon = new Manager(user, socket, page);
+    const daemon = new Manager(user, socket, page, state);
     const ui = config.ui ? config.ui : new CommonUI(user);
 
     ui.register(daemon);
     daemon.start();
 
     return daemon;
+  }
+
+  static getPreviousCode(): string | null {
+    const state = new StateManager();
+    return state.getCode();
   }
 
   /**

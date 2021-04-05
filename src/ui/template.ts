@@ -5,6 +5,7 @@ export const CSS = `
   left: 0;
   width: 100%;
   z-index: 9999;
+  pointer-events: none;
 
   display: flex;
   align-items: center;
@@ -23,6 +24,7 @@ export const CSS = `
   padding: 6px 24px;
   border: 1px solid rgba(0,0,0,.5);
   backdrop-filter: saturate(180%) blur(6px);
+  pointer-events: auto;
 }
 
 #__remote-status-bar-status {

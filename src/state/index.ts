@@ -33,7 +33,6 @@ export class StateManager {
 
   get(): State {
     const data = this.storage.getItem(this.key);
-
     if (!data) throw new Error("not found");
 
     const state = JSON.parse(data);
@@ -42,6 +41,14 @@ export class StateManager {
       control: User.fromJSON(state.control),
       user: User.fromJSON(state.user),
     };
+  }
+
+  getCode(): string | null {
+    const data = this.storage.getItem(this.key);
+    if (!data) throw new Error("not found");
+
+    const state = JSON.parse(data) || {};
+    return state.code ? state.code : null;
   }
 
   clear(): void {
