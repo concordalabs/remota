@@ -66,8 +66,6 @@ export class Manager {
 
     this.socket.onConnectError((): void => {
       this.logger.info("conversa failed to connect 🚨");
-      this.error(new Error("Connection error"));
-      this.close();
     });
 
     this.socket.onMessage((data) => this.page.handle(data));
