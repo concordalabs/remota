@@ -64,12 +64,10 @@ export class Manager {
       this.logger.info("ready for conversa 🚀");
     });
 
-    this.socket.onConnectError((err): void => {
-      this.logger.info("conversa failed to connect 🚨", {
-        message: err.message,
-        description: err.data.description,
-      });
-      this.error(new SocketError(err.message, err.data.description));
+    this.socket.onConnectError((): void => {
+      this.logger.info("conversa failed to connect 🚨");
+      this.error(new Error("Connection error"));
+      this.close();
     });
 
     this.socket.onMessage((data) => this.page.handle(data));

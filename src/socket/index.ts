@@ -63,7 +63,7 @@ export interface SocketClient {
   on(event: string, cb: Function): void;
   close(): void;
   onConnect(cb: () => void): this;
-  onConnectError(cb: (err: SocketConnectionError) => void): this;
+  onConnectError(cb: () => void): this;
   onMessage(cb: (e: MessageEvent) => void): this;
   onControl(cb: (e: ControlEvent) => void): this;
   onJoin(cb: (e: JoinEvent) => void): this;
@@ -91,8 +91,8 @@ export class Socket implements SocketClient {
     return this;
   }
 
-  onConnectError(cb: (err: SocketConnectionError) => void): this {
-    this.on("error", cb);
+  onConnectError(cb: () => void): this {
+    this.on("close", cb);
     return this;
   }
 
@@ -123,13 +123,17 @@ export class Socket implements SocketClient {
 
   // eslint-disable-next-line
   send(type: SocketMessages | PageMessages, payload: any): void {
-    this.socket.send(
-      JSON.stringify({
-        type: type,
-        code: this.code,
-        payload,
-      })
-    );
+    try {
+      this.socket.send(
+        JSON.stringify({
+          type: type,
+          code: this.code,
+          payload,
+        })
+      );
+    } catch (err) {
+      // TODO: how to handle this error?
+    }
   }
 
   close(): void {
