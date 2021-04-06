@@ -1,4 +1,4 @@
-import { User } from "../user";
+import { User, UserType } from "../user";
 
 export interface State {
   code: string;
@@ -7,10 +7,21 @@ export interface State {
 }
 
 export class StateManager {
-  private key: string;
+  private key = "remota:state:";
 
-  constructor(key = "state", private storage = window.sessionStorage) {
-    this.key = `share-remote:${key}:`;
+  constructor(private storage = window.sessionStorage) {}
+
+  static load({ code, user }: { code: string; user: User }): StateManager {
+    const state = new StateManager();
+    try {
+      state.get();
+      return state;
+    } catch (e) {
+      state.code = code;
+      state.user = user;
+      state.control = user.isHost() ? user : User.fromType(UserType.HOST);
+      return state;
+    }
   }
 
   private save(data: State | null): this {
@@ -43,27 +54,31 @@ export class StateManager {
     };
   }
 
-  getCode(): string | null {
-    const data = this.storage.getItem(this.key);
-    if (!data) throw new Error("not found");
-
-    const state = JSON.parse(data) || {};
-    return state.code ? state.code : null;
-  }
-
   clear(): void {
     this.save(null);
   }
 
-  setUser(user: User): this {
-    return this.merge({ user });
+  get code(): string {
+    return this.get().code;
   }
 
-  setControl(control: User): this {
-    return this.merge({ control });
+  set code(code: string) {
+    this.merge({ code });
   }
 
-  setCode(code: string): this {
-    return this.merge({ code });
+  get user(): User {
+    return this.get().user;
+  }
+
+  set user(user: User) {
+    this.merge({ user });
+  }
+
+  get control(): User {
+    return this.get().control;
+  }
+
+  set control(control: User) {
+    this.merge({ control });
   }
 }

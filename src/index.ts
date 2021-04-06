@@ -97,9 +97,7 @@ export default class Remota {
     }
 
     const user = User.fromType(config.type);
-    const state = new StateManager();
-    state.setCode(config.code);
-    state.setUser(user);
+    const state = StateManager.load({ user, code: config.code });
     const daemon = new Manager(user, socket, page, state);
     const ui = config.ui ? config.ui : new CommonUI(user);
 
@@ -111,7 +109,7 @@ export default class Remota {
 
   static getPreviousCode(): string | null {
     const state = new StateManager();
-    return state.getCode();
+    return state.code;
   }
 
   /**

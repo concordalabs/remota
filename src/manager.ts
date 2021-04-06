@@ -33,17 +33,11 @@ export class Manager {
     private user: User,
     private socket: Socket,
     private page: Page,
-    private state = new StateManager(),
+    private state: StateManager,
     private logger = console,
     private events = new EventEmitter()
   ) {
-    try {
-      const state = this.state.get();
-      this.control = state.control;
-    } catch (e) {
-      this.control = user.isHost() ? user : User.fromType(UserType.HOST);
-    }
-
+    this.control = state.control;
     this.intervals = {};
   }
   /**
@@ -187,7 +181,7 @@ export class Manager {
     if (!payload.accept) return;
 
     this.control = control;
-    this.state.setControl(control);
+    this.state.control = control;
     this.page.setPermissions(Permissions.fromUser(this.user, control));
   }
 
