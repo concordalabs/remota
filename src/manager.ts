@@ -23,7 +23,6 @@ export type UpdateControl = {
  * and so on.
  */
 export class Manager {
-  private user: User;
   private control: User;
   private intervals: { [k: string]: ReturnType<typeof setInterval> };
 
@@ -31,7 +30,7 @@ export class Manager {
    * @internal
    */
   constructor(
-    user: User,
+    private user: User,
     private socket: Socket,
     private page: Page,
     private state = new StateManager(),
@@ -40,13 +39,10 @@ export class Manager {
   ) {
     try {
       const state = this.state.get();
-      this.user = state.user;
       this.control = state.control;
     } catch (e) {
-      this.user = user;
       this.control = user.isHost() ? user : User.fromType(UserType.HOST);
     }
-    this.state.setUser(this.user);
 
     this.intervals = {};
   }

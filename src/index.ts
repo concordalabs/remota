@@ -78,9 +78,6 @@ export default class Remota {
       clientId: config.clientId,
     });
 
-    const state = new StateManager();
-    state.setCode(config.code);
-
     let page: Page;
     switch (config.type) {
       case UserType.AGENT: {
@@ -100,6 +97,9 @@ export default class Remota {
     }
 
     const user = User.fromType(config.type);
+    const state = new StateManager();
+    state.setCode(config.code);
+    state.setUser(user);
     const daemon = new Manager(user, socket, page, state);
     const ui = config.ui ? config.ui : new CommonUI(user);
 
