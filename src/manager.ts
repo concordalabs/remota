@@ -1,10 +1,9 @@
 import EventEmitter from "eventemitter3";
-import { User, UserType } from "./user";
+import { User } from "./user";
 import { StateManager } from "./state";
 import { Permissions } from "./access";
 import { Socket, SocketMessages } from "./socket";
 import { Page } from "./page";
-import { SocketError } from "./errors";
 
 export type PromptControl = {
   user: User;

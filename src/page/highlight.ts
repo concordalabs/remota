@@ -36,7 +36,7 @@ export class Highlighter {
     this.events.emit("highlight:update", { reset: true });
   }
 
-  close() {
+  close(): void {
     this.events.removeAllListeners();
     while (this.closers.length > 0) {
       const closer = this.closers.shift();
@@ -61,7 +61,7 @@ export class Highlighter {
   onReset(cb: () => void): void {
     this.register();
 
-    const onReset = debounce((e) => {
+    const onReset = debounce(() => {
       this.reset();
       cb();
     }, 4000);
@@ -69,7 +69,7 @@ export class Highlighter {
     this.events.on("highlight:reset", onReset);
   }
 
-  update(e: HighlightUpdate) {
+  update(e: HighlightUpdate): void {
     this.clickX =
       e.clickX && e.clickX.length ? [...this.clickX, ...e.clickX] : this.clickX;
     this.clickY =
@@ -172,7 +172,7 @@ export class Highlighter {
     this.emitReset();
   }
 
-  private mouseUpEventHandler(e: MouseEvent) {
+  private mouseUpEventHandler() {
     this.context.closePath();
     this.paint = false;
     this.emitUpdate();
@@ -221,7 +221,7 @@ export class Highlighter {
       matchMedia(mqString).removeEventListener("change", updatePixelRatio)
     );
 
-    const mouseUpEventHandler = (e: MouseEvent) => this.mouseUpEventHandler(e);
+    const mouseUpEventHandler = () => this.mouseUpEventHandler();
     this.canvas.addEventListener("mouseup", mouseUpEventHandler);
     this.closers.push(() =>
       this.canvas.removeEventListener("mouseup", mouseUpEventHandler)

@@ -1,4 +1,4 @@
-import { rebuild, snapshot } from "rrweb-snapshot";
+import { rebuild, snapshot, serializedNodeWithId } from "rrweb-snapshot";
 
 interface DOMUpdate {
   // eslint-disable-next-line
@@ -86,7 +86,7 @@ export default class DOM {
     }
   }
 
-  dump() {
+  dump(): serializedNodeWithId | null {
     return snapshot(document, {
       blockClass: "remoteSecured",
       maskAllInputs: this.maskAllInputs,

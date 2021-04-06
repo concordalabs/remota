@@ -41,11 +41,6 @@ const AgentView = [Permission.EmitCursorChange, Permission.EmitHighlightChange];
  */
 export class Permissions {
   /**
-   * @internal
-   */
-  constructor() {}
-
-  /**
    * Returns the correct level of access a user can have, based on which user is
    * in control.
    */

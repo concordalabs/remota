@@ -74,7 +74,7 @@ export interface SocketClient {
  */
 export class Socket implements SocketClient {
   public code: string;
-  private socket: any;
+  private socket: WebSocket;
   private url: URL;
 
   constructor(config: Config) {

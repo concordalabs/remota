@@ -17,6 +17,7 @@
     "watch:tsc": "npm run build:tsc -- --watch",
     "watch:esbuild": "esbuild ./src/remota.js  --outfile=./dist/remota.js --target=es6 --bundle --sourcemap --serve",
     "watch:docs": "npm run build:doc -- --watch",
+    "test:lint": "eslint ./src/ --ext .js,.jsx,.ts,.tsx --fix",
     "publish:docs": "gh-pages -d docs",
     "prepublishOnly": "npm run build",
     "postpublish": "npm run publish:docs"
